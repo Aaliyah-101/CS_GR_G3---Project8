@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 
 const links = [
-  { label: 'Explore Stories', href: '#stories' },
-  { label: 'Create a Story', href: '#create' },
-  { label: 'About', href: '#about' },
+  { label: 'Explore Stories', href: '#stories', icon: '' },
+  { label: 'Create a Story', href: '#create', icon: '' },
+  { label: 'About ', href: '#about', icon: '' },
 ]
 
 export default function Sidebar({ open, onClose, userName, onNavigate }) {
@@ -21,66 +21,100 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
 
   return (
     <>
-      {/* Backdrop — fades in, click to close. pointer-events-none when closed
-          so it never blocks clicks on the page underneath. */}
+      {/* Backdrop — Enhanced blur depth to create separation */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 z-40 bg-ink/70 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 bg-ink/75 backdrop-blur-md transition-opacity duration-300 ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
         aria-hidden="true"
       />
 
-      {/* Panel — translate-x handles the slide, always in the DOM so the
-          transition can run both ways instead of popping in/out. */}
+      {/* Panel — Matches background system color matching your platform */}
       <aside
-        className={`fixed left-0 top-0 z-50 h-full w-72 transform border-r border-panelLine bg-[#10011bd8] transition-transform duration-300 ease-out ${
+        className={`fixed left-0 top-0 z-50 h-full w-72 transform border-r border-panelLine/40 bg-ink/95 backdrop-blur-xl transition-transform duration-300 ease-out flex flex-col justify-between ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
       >
-        <div className="flex items-center justify-between border-b border-panelLine px-6 py-4">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#10011bd8]" />
-            <span className="font-display text-sm font-semibold tracking-wide">
-              VisUg
-            </span>
-          </div>
-          <button
-            onClick={onClose}
-            aria-label="Close menu"
-            className="rounded-md p-1.5 text-sienna transition hover:text-parchment"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
-
-        <nav className="flex flex-col gap-1 px-3 py-4">
-          {links.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              onClick={(e) => {
-                if (l.href === '#create' && onNavigate) {
-                  e.preventDefault()
-                  onNavigate('create')
-                }
-                onClose()
-              }}
-              className="rounded-md px-3 py-2.5 font-body text-sm text-sienna transition hover:bg-ink hover:text-parchment"
+        {/* Top Header Section */}
+        <div>
+          <div className="flex items-center justify-between border-b border-panelLine/40 px-6 h-20">
+            <div className="flex items-center gap-3">
+              {/* Brand identity anchor dot mimicking navbar node */}
+              <div className="relative flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-amber to-clay">
+                <span className="font-display font-black text-ink text-xs leading-none">U</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-display text-xs font-bold tracking-tight text-parchment leading-tight">
+                  Uganda Stories
+                </span>
+                <span className="font-mono text-[8px] uppercase tracking-[0.1em] text-sienna leading-none mt-0.5">
+                  Navigation
+                </span>
+              </div>
+            </div>
+            
+            {/* Close Trigger Button */}
+            <button
+              onClick={onClose}
+              aria-label="Close menu"
+              className="rounded-md p-1.5 text-sienna hover:text-amber hover:bg-panelLine/10 transition-all"
             >
-              {l.label}
-            </a>
-          ))}
-        </nav>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
 
-        <div className="absolute bottom-0 w-full border-t border-panelLine px-6 py-4 font-mono text-xs text-sienna">
-          {userName ? `Welcome back, ${userName}` : 'Sign in'}
+          {/* Navigation Links Area */}
+          <nav className="flex flex-col gap-1.5 px-4 py-6">
+            {links.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                onClick={(e) => {
+                  if (l.href === '#create' && onNavigate) {
+                    e.preventDefault()
+                    onNavigate('create')
+                  }
+                  onClose()
+                }}
+                className="group flex items-center gap-3.5 rounded-lg px-3.5 py-3 font-body text-xs font-semibold uppercase tracking-wider text-sienna hover:bg-panelLine/10 hover:text-amber transition-all"
+              >
+                {/* Micro Icon Accent */}
+                <span className="text-sm opacity-60 group-hover:scale-110 group-hover:opacity-100 transition-transform">
+                  {l.icon}
+                </span>
+                {l.label}
+              </a>
+            ))}
+          </nav>
         </div>
+
+        {/* Footer Authentication Section */}
+        <div className="border-t border-panelLine/40 px-6 py-5 bg-black/10 flex items-center gap-3">
+          {/* Active status pulse light */}
+          <span className={`h-2 w-2 rounded-full ${userName ? 'bg-amber animate-pulse' : 'bg-sienna/40'}`} />
+          
+          <div className="font-mono text-[10px] tracking-wider uppercase text-sienna">
+            {userName ? (
+              <span>
+                Active: <span className="text-parchment font-bold">{userName}</span>
+              </span>
+            ) : (
+              <button 
+                type="button" 
+                className="text-sienna hover:text-amber transition-colors font-bold uppercase"
+              >
+                Sign In to Platform →
+              </button>
+            )}
+          </div>
+        </div>
+
       </aside>
     </>
   )
