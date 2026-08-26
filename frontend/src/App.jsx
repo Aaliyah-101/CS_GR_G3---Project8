@@ -12,8 +12,8 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 function Home({ onCreateClick }) {
   return (
     <>
-    <Hero onCreateClick={onCreateClick} />
-    <FeaturedStories />
+      <Hero onCreateClick={onCreateClick} />
+      <FeaturedStories />
     </>
   )
 }
@@ -24,7 +24,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen text-parchment">
-      <Navbar onMenuClick={() => setSidebarOpen(true)} />
+      {/* Added onCreateClick prop so the Get Started button functions correctly */}
+      <Navbar 
+        onMenuClick={() => setSidebarOpen(true)} 
+        onCreateClick={() => navigate('/create')}
+      />
+      
       <Sidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -43,3 +48,4 @@ export default function App() {
     </div>
   )
 }
+

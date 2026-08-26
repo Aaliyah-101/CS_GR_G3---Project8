@@ -22,7 +22,7 @@ export default function Navbar({ onCreateClick, onMenuClick }) {
           <a href="#" className="flex items-center gap-3 group">
             <div className="flex flex-col">
               <span className="font-display text-sm font-bold tracking-tight text-parchment leading-tight group-hover:text-amber transition-colors">
-                Ugandan Source Information
+                Pearl Visual (Ugandan Source Information)
               </span>
               <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-sienna leading-none mt-0.5">
                 LVM Visual Creator
@@ -49,7 +49,7 @@ export default function Navbar({ onCreateClick, onMenuClick }) {
             href="#technology" 
             className="font-body text-xs font-semibold uppercase tracking-widest text-sienna hover:text-amber transition-colors"
           >
-           Our Tech
+           Features
           </a>
         </div>
 
@@ -57,7 +57,7 @@ export default function Navbar({ onCreateClick, onMenuClick }) {
         <div className="flex items-center gap-4">
           <button
             type="button"
-            onClick={onCreateClick}
+            onClick={onCreateClick} // This will execute navigate('/create') safely
             className="rounded-lg bg-amber px-4 py-2 font-body text-xs font-bold uppercase tracking-wider text-ink shadow-md hover:bg-amber/90 hover:-translate-y-0.5 active:translate-y-0 transition-all"
           >
             Get Started
@@ -68,4 +68,5 @@ export default function Navbar({ onCreateClick, onMenuClick }) {
     </nav>
   )
 }
+
 

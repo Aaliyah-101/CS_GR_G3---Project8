@@ -51,7 +51,7 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
               </div>
               <div className="flex flex-col">
                 <span className="font-display text-xs font-bold tracking-tight text-parchment leading-tight">
-                  Uganda Stories
+                  Pearl Visual (Ugandan Information)
                 </span>
                 <span className="font-mono text-[8px] uppercase tracking-[0.1em] text-sienna leading-none mt-0.5">
                   Navigation
