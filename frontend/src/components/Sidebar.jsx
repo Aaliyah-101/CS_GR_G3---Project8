@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+
+// Corrected keys from 'to' to 'href' to match the rendering code below
 const links = [
-  { label: 'Home', to: '/#stories' },
-  { label: 'Create a Story', to: '/create' },
-  { label: 'Share & Discover', to: '/gallery' },
-  { label: 'About', to: '/#about' },
+  { label: 'Home', href: '/' },
+  { label: 'Create a Story', href: '/create' },
+  { label: 'Share & Discover', href: '/gallery' },
+  { label: 'About', href: '/about' },
 ]
 
 export default function Sidebar({ open, onClose, userName, onNavigate }) {
@@ -70,25 +71,21 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
             </button>
           </div>
 
-          {/* Navigation Links Area */}
+          {/* Navigation Links Area — Fixed properties and routing logic */}
           <nav className="flex flex-col gap-1.5 px-4 py-6">
             {links.map((l) => (
               <a
                 key={l.label}
                 href={l.href}
                 onClick={(e) => {
-                  if (l.href === '#create' && onNavigate) {
-                    e.preventDefault()
-                    onNavigate('create')
+                  e.preventDefault() // Prevents slow, full-page browser reloads
+                  if (onNavigate) {
+                    onNavigate(l.href) // Routes instantly using React Router
                   }
-                  onClose()
+                  onClose() // Closes the sidebar panel drawer automatically
                 }}
                 className="group flex items-center gap-3.5 rounded-lg px-3.5 py-3 font-body text-xs font-semibold uppercase tracking-wider text-sienna hover:bg-panelLine/10 hover:text-amber transition-all"
               >
-                {/* Micro Icon Accent */}
-                <span className="text-sm opacity-60 group-hover:scale-110 group-hover:opacity-100 transition-transform">
-                  {l.icon}
-                </span>
                 {l.label}
               </a>
             ))}
