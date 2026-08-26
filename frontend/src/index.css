@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-parchment font-body antialiased;
+    /* Campfire glow: warm ember light rising from the bottom, fading into
+       near-black. background-attachment: fixed keeps it anchored to the
+       viewport so it reads as ambient room light, not a per-section effect. */
+    background-color: #10011bd8;
+    background-image: radial-gradient(
+      ellipse 90% 60% at 50% 120%,
+      rgba(184, 92, 31, 0.55) 0%,
+      rgba(184, 92, 31, 0.22) 30%,
+      rgba(7, 0, 12, 0.815) 65%
+    );
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+}
+
+/* Subtle bark-cloth (olubugo) texture: hand-beaten, irregular fiber lines.
+   Used once, in the hero, as the page's signature — not sprinkled everywhere. */
+.bark-texture {
+  background-image:
+    repeating-linear-gradient(
+      115deg,
+      rgba(232, 163, 61, 0.05) 0px,
+      rgba(232, 163, 61, 0.05) 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    repeating-linear-gradient(
+      25deg,
+      rgba(184, 92, 31, 0.06) 0px,
+      rgba(184, 92, 31, 0.06) 1px,
+      transparent 1px,
+      transparent 22px
+    );
+}
