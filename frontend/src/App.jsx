@@ -7,13 +7,22 @@ import Createstory from './pages/Createstory.jsx'
 import Footer from './components/Footer.jsx'
 import Gallery from './pages/Gallery.jsx'
 import AboutUs from './pages/AboutUs.jsx'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
 
 function Home({ onCreateClick }) {
   return (
     <>
-    <Hero onCreateClick={onCreateClick} />
-    <FeaturedStories />
+      <Hero onCreateClick={onCreateClick} />
+      <FeaturedStories />
     </>
   )
 }
@@ -24,6 +33,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen text-parchment">
+      <ScrollToTop />
       <Navbar onMenuClick={() => setSidebarOpen(true)} />
       <Sidebar
         open={sidebarOpen}

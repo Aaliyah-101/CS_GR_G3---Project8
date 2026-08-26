@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 const links = [
-  { label: 'Home', to: '/#stories' },
+  { label: 'Home', to: '/' },
   { label: 'Create a Story', to: '/create' },
   { label: 'Share & Discover', to: '/gallery' },
-  { label: 'About', to: '/#about' },
+  { label: 'About', to: '/about' },
 ]
 
 export default function Sidebar({ open, onClose, userName, onNavigate }) {
@@ -65,7 +65,12 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
             <Link
               key={l.label}
               to={l.to}
-              onClick={onClose}
+              onClick={() => {
+                onClose()
+                if (window.innerWidth < 768) {
+                   // Mobile specific close logic if needed, but onClose handles backdrop
+                }
+              }}
               className="rounded-md px-3 py-2.5 font-body text-sm text-sienna transition hover:bg-ink hover:text-parchment"
             >
               {l.label}
