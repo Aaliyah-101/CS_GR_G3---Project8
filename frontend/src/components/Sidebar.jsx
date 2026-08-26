@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 
 // Corrected keys from 'to' to 'href' to match the rendering code below
 const links = [
-  { label: 'Home', href: '/' },
-  { label: 'Create a Story', href: '/create' },
-  { label: 'Share & Discover', href: '/gallery' },
-  { label: 'About', href: '/about' },
+  { label: 'Home', to: '/' },
+  { label: 'Create a Story', to: '/create' },
+  { label: 'Share & Discover', to: '/gallery' },
+  { label: 'About', to: '/about' },
 ]
 
 export default function Sidebar({ open, onClose, userName, onNavigate }) {
