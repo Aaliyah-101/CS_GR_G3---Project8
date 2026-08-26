@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-
-// Import your existing images
 //import helm from '../images/helm.jpeg'
 import health from '../images/health.jpeg'
 import bike from '../images/bike.jpeg'

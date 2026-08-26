@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar.jsx'
 import Sidebar from './components/Sidebar.jsx'
 import Hero from './components/Hero.jsx'
@@ -8,7 +8,6 @@ import Footer from './components/Footer.jsx'
 import Gallery from './pages/Gallery.jsx'
 import AboutUs from './pages/AboutUs.jsx'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -23,8 +22,6 @@ function Home({ onCreateClick }) {
     <>
       <Hero onCreateClick={onCreateClick} />
       <FeaturedStories />
-      <Hero onCreateClick={onCreateClick} />
-      <FeaturedStories />
     </>
   )
 }
@@ -35,11 +32,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen text-parchment">
-      {/* Added onCreateClick prop so the Get Started button functions correctly */}
       <ScrollToTop />
+      
+      {/* Connected all navigation paths to the React Router engine */}
       <Navbar 
         onMenuClick={() => setSidebarOpen(true)} 
         onCreateClick={() => navigate('/create')}
+        onGalleryClick={() => navigate('/gallery')}
+        onAboutClick={() => navigate('/about')}
       />
       
       <Sidebar
@@ -60,4 +60,3 @@ export default function App() {
     </div>
   )
 }
-

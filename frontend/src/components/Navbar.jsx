@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Navbar({ onCreateClick, onMenuClick }) {
+export default function Navbar({ onCreateClick, onMenuClick, onGalleryClick, onAboutClick }) {
   return (
     <nav className="border-b border-panelLine/40 bg-ink/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
       <div className="mx-auto max-w-7xl px-6 h-20 flex items-center justify-between">
@@ -31,22 +31,39 @@ export default function Navbar({ onCreateClick, onMenuClick }) {
           </a>
         </div>
 
-        {/* Center: Friendly, Clear Navigation */}
+        {/* Center: Navigation Links */}
         <div className="hidden md:flex items-center gap-8">
+          {/* How It Works -> Links to your existing About route */}
           <a 
-            href="#features" 
+            href="/about" 
+            onClick={(e) => {
+              e.preventDefault()
+              if (onAboutClick) onAboutClick()
+            }}
             className="font-body text-xs font-semibold uppercase tracking-widest text-sienna hover:text-amber transition-colors"
           >
            How It Works
           </a>
+
+          {/* Browse Stories -> Links to your Gallery route */}
           <a 
-            href="#stories" 
+            href="/gallery" 
+            onClick={(e) => {
+              e.preventDefault()
+              if (onGalleryClick) onGalleryClick()
+            }}
             className="font-body text-xs font-semibold uppercase tracking-widest text-sienna hover:text-amber transition-colors"
           >
             Browse Stories
           </a>
+
+          {/* Features -> Links to your existing About route */}
           <a 
-            href="#technology" 
+            href="/about" 
+            onClick={(e) => {
+              e.preventDefault()
+              if (onAboutClick) onAboutClick()
+            }}
             className="font-body text-xs font-semibold uppercase tracking-widest text-sienna hover:text-amber transition-colors"
           >
            Features
@@ -57,7 +74,7 @@ export default function Navbar({ onCreateClick, onMenuClick }) {
         <div className="flex items-center gap-4">
           <button
             type="button"
-            onClick={onCreateClick} // This will execute navigate('/create') safely
+            onClick={onCreateClick}
             className="rounded-lg bg-amber px-4 py-2 font-body text-xs font-bold uppercase tracking-wider text-ink shadow-md hover:bg-amber/90 hover:-translate-y-0.5 active:translate-y-0 transition-all"
           >
             Get Started
@@ -68,5 +85,7 @@ export default function Navbar({ onCreateClick, onMenuClick }) {
     </nav>
   )
 }
+
+
 
 

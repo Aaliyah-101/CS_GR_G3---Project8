@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
 
-// Corrected keys from 'to' to 'href' to match the rendering code below
+// Fixed: Changed keys from 'to' back to 'href' to perfectly match the rendering engine below
 const links = [
-  { label: 'Home', to: '/' },
-  { label: 'Create a Story', to: '/create' },
-  { label: 'Share & Discover', to: '/gallery' },
-  { label: 'About', to: '/about' },
+  { label: 'Home', href: '/' },
+  { label: 'Create a Story', href: '/create' },
+  { label: 'Share & Discover', href: '/gallery' },
+  { label: 'About', href: '/about' },
 ]
 
 export default function Sidebar({ open, onClose, userName, onNavigate }) {
-  // close on Escape, and stop the page from scrolling behind the sidebar
+  
   useEffect(() => {
     if (!open) return
     const handleKey = (e) => e.key === 'Escape' && onClose()
@@ -80,7 +80,7 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
                 onClick={(e) => {
                   e.preventDefault() // Prevents slow, full-page browser reloads
                   if (onNavigate) {
-                    onNavigate(l.href) // Routes instantly using React Router
+                    onNavigate(l.href) // Safely targets the path string
                   }
                   onClose() // Closes the sidebar panel drawer automatically
                 }}
@@ -100,7 +100,7 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
           <div className="font-mono text-[10px] tracking-wider uppercase text-sienna">
             {userName ? (
               <span>
-                Active: <span className="text-parchment font-bold">{userName}</span>
+                <span className="text-parchment font-bold"></span>
               </span>
             ) : (
               <button 

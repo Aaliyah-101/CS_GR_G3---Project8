@@ -29,7 +29,7 @@ export default function AboutUs() {
           <h2 className="font-display text-2xl font-semibold text-parchment">How it Works</h2>
           <p className="mt-4 font-body text-sm leading-relaxed text-sienna">
             Our platform allows communicators to break down complex topics into simple scenes.
-            These scenes are then processed by AI models to generate culturally relevant and
+            These scenes are then processed by LVM models to generate culturally relevant and
             contextually accurate visuals making information accessible, memorable and shareable.
           </p>
         </div>
