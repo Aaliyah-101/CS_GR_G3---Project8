@@ -1,4 +1,5 @@
-# CS_GR_G3---LVM_Powered-Visual-Storytelling-for-Ugandan-Public-Communication-
+# CS_GR_G3---Project8
+
 
 ## Story creation flow
 
