@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
-
+import { Link } from 'react-router-dom'
 const links = [
-  { label: 'Explore Stories', href: '#stories', icon: '' },
-  { label: 'Create a Story', href: '#create', icon: '' },
-  { label: 'About ', href: '#about', icon: '' },
+  { label: 'Home', to: '/#stories' },
+  { label: 'Create a Story', to: '/create' },
+  { label: 'Share & Discover', to: '/gallery' },
+  { label: 'About', to: '/#about' },
 ]
 
 export default function Sidebar({ open, onClose, userName, onNavigate }) {

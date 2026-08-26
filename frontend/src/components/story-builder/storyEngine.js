@@ -16,8 +16,12 @@ export function nextLocalId() {
  */
 export function extractFacts(sourceText) {
   const sentences = sourceText
+<<<<<<< HEAD
     .replace(/([.!?])\s+/g, '$1|SPLIT|')
     .split('|SPLIT|')
+=======
+    .split(/(?<=[.!?])\s+/)
+>>>>>>> f03fd2bd45da9db807ab4bddd086d45197309da2
     .map((s) => s.trim())
     .filter((s) => s.length > 12)
 
