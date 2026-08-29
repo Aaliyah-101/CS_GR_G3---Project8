@@ -1,6 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@keyframes wiggleFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+.animate-wiggle-float {
+  animation: wiggleFloat 6s ease-in-out infinite;
+}
+
 
 @layer base {
   body {
