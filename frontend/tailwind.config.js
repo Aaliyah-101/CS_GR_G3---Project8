@@ -1,27 +1,39 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
+
   theme: {
     extend: {
+
       colors: {
-        cream: '#FAF6F0',     // Fresh, bright luxury cream accent
-        ink: '#2E2A24',       
-        panel: '#3D372F',     
-        panelLine: '#524B40', 
-        parchment: '#F5EFE6', 
-        sienna: '#C4B4A7',    
-        amber: '#E8A33D',     
-        clay: '#B85C1F',      
+
+        /* Main health-themed colors */
+
+        cream: '#F0FDFA',       // Soft mint-white
+        ink: '#071A1D',         // Deep teal background
+        panel: '#0D2929',       // Dark teal panels
+        panelLine: '#164E4A',   // Teal borders
+
+        parchment: '#F0FDFA',   // Main text
+        sienna: '#94A3B8',      // Muted/secondary text
+
+        amber: '#2DD4BF',       // Main teal accent
+        clay: '#0F766E',        // Dark teal accent
       },
+
+
       fontFamily: {
+
         display: ['"Space Grotesk"', 'sans-serif'],
+
         body: ['Inter', 'sans-serif'],
+
         mono: ['"IBM Plex Mono"', 'monospace'],
+
       },
+
     },
   },
+
   plugins: [],
 }
-
-
-

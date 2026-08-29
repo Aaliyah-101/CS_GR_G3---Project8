@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { IconType, IconUpload, IconMic, IconSquare, IconFile } from './Icons.jsx'
 import { useVoiceRecorder } from './useVoiceRecorder.js'
 
-const CATEGORIES = ['Public Awareness', 'Health', 'Education', 'Culture']
+const CATEGORIES = ['Public Health Awareness', 'Mental Health', 'Reproductive Health', 'Nutrition', 'Environmental Health', 'Other']
 const TONES = ['Hopeful', 'Urgent', 'Reflective', 'Playful']
 const TEXT_READABLE = ['text/plain', 'text/markdown']
 
@@ -45,7 +45,7 @@ export default function SourceStep({ data, update, onVerify }) {
       <input
         value={data.title}
         onChange={(e) => update({ title: e.target.value })}
-        placeholder="e.g. The journey home"
+        placeholder="e.g. Malaria Fighters"
         className="mt-2 w-full rounded-md border border-panelLine bg-ink px-3 py-2 font-body text-sm text-parchment placeholder:text-sienna/60 focus:border-amber focus:outline-none"
       />
 

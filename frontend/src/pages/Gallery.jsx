@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react'
-import campfire from '../assets/images/campfirestories.png'
-import gorilla from '../assets/images/gorilla.png'
-import nakayima from '../assets/images/Nakayima.png'
-import traditionaldance from '../assets/images/traditionaldance.png'
-import schoolgirl from '../assets/images/schoolgirl.png'
+import ebola from '../images/ebola.png'
+import netcover from '../images/netcover.png'
+import maternal from '../images/maternal.png'
+import nutrition from '../images/nutrition.png'
+import traditional from '../images/traditional.png'
 import underthenet from '../assets/images/underthenet.png'
 
 
@@ -12,38 +12,38 @@ import underthenet from '../assets/images/underthenet.png'
 const seedItems = [
   {
     id: 'a1',
-    src: campfire,
+    src: ebola,
     source: 'community',
-    caption: 'My campfire story',
+    caption: 'Fighting Ebola in the community',
     story: null,
   },
   {
     id: 'a2',
-    src: gorilla,
-    source: 'wildlife',
-    caption: 'Gorilla tracking',
+    src: netcover,
+    source: 'community',
+    caption: 'Sleeping under the net',
     story: null,
   },
   {
     id: 'a3',
-    src: nakayima,
-    source: 'folklore',
-    caption: 'Nakayima',
+    src: maternal,
+    source: 'community',
+    caption: 'Maternal health',
     story: null,
   },
 
   {
     id: 'a4',
-    src: traditionaldance,
-    source: 'folklore',
-    caption: 'Traditional Dance',
+    src: nutrition,
+    source: 'foryou',
+    caption: 'Nutrition is important',
     story: null,
   },
   {
     id: 'a5',
-    src: schoolgirl,
+    src: traditional,
     source: 'folklore',
-    caption: 'Education is key',
+    caption: 'Traditional Practices',
     story: null,
   },
 
@@ -60,7 +60,7 @@ const FILTERS = [
   { label: 'All', value: 'all' },
   { label: 'AI Generated', value: 'ai' },
   { label: 'Community Uploads', value: 'community' },
-  { label: 'Wildlife', value: 'wildlife' },
+  { label: 'For You', value: 'foryou' },
   { label: 'Folklore', value: 'folklore' },
 ]
 
@@ -97,13 +97,13 @@ export default function Gallery() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="mb-8">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#2DD4BF]">
           Share & Discover
         </p>
         <h1 className="mt-2 font-display text-3xl font-semibold">
           Media from Pearl Visual stories
         </h1>
-        <p className="mt-2 max-w-xl font-body text-sm text-sienna">
+        <p className="mt-2 max-w-xl font-body text-sm text-[#94A3B8]">
           Browse visuals generated for published stories, or share your own
           photos for the community to draw on.
         </p>
@@ -116,17 +116,17 @@ export default function Gallery() {
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
         className={`mb-10 flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-10 text-center transition ${
-          dragActive ? 'border-amber bg-amber/5' : 'border-panelLine hover:border-amber/40'
+          dragActive ? 'border-[#2DD4BF] bg-[#2DD4BF]/5' : 'border-[#164E4A] hover:border-[#2DD4BF]/40'
         }`}
       >
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-amber">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-[#2DD4BF]">
           <path d="M12 16V4M12 4l-4 4M12 4l4 4" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <p className="mt-3 font-body text-sm text-parchment">
+        <p className="mt-3 font-body text-sm text-[#F0FDFA]">
           Drag photos here, or click to upload
         </p>
-        <p className="mt-1 font-mono text-xs text-sienna">PNG, JPG — shared to the community gallery</p>
+        <p className="mt-1 font-mono text-xs text-[#94A3B8]">PNG, JPG — shared to the community gallery</p>
         <input
           ref={fileInputRef}
           type="file"
@@ -145,8 +145,8 @@ export default function Gallery() {
             onClick={() => setFilter(f.value)}
             className={`rounded-full px-4 py-1.5 font-mono text-xs uppercase tracking-wide transition ${
               filter === f.value
-                ? 'bg-amber text-ink'
-                : 'border border-panelLine text-sienna hover:text-parchment'
+                ? 'bg-[#2DD4BF] text-[#071A1D]'
+                : 'border border-[#164E4A] text-[#94A3B8] hover:text-parchment'
             }`}
           >
             {f.label}
@@ -156,7 +156,7 @@ export default function Gallery() {
 
       {/* Grid */}
       {visibleItems.length === 0 ? (
-        <p className="py-16 text-center font-body text-sm text-sienna">
+        <p className="py-16 text-center font-body text-sm text-[#94A3B8]">
           Nothing here yet.
         </p>
       ) : (
@@ -174,7 +174,7 @@ export default function Gallery() {
               />
               <span
                 className={`absolute left-2 top-2 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide ${
-                  item.source === 'ai' ? 'bg-clay/80 text-parchment' : 'bg-ink/80 text-amber'
+                  item.source === 'ai' ? 'bg-[#2DD4BF]/80 text-[#071A1D]' : 'bg-[#071A1D]/80 text-[#2DD4BF]'
                 }`}
               >
                 {item.source === 'ai' ? 'AI' : 'Community'}
@@ -192,7 +192,7 @@ export default function Gallery() {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="max-w-lg overflow-hidden rounded-lg border border-panelLine bg-panel"
+            className="max-w-lg overflow-hidden rounded-lg border border-[#164E4A] bg-[#0D2929]"
           >
             <img src={selected.src} alt={selected.caption} className="w-full" />
             <div className="p-4">
