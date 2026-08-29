@@ -1,33 +1,60 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar.jsx'
 import Sidebar from './components/Sidebar.jsx'
 import Hero from './components/Hero.jsx'
 import FeaturedStories from './components/FeaturedStories.jsx'
 import Createstory from './pages/Createstory.jsx'
 import Footer from './components/Footer.jsx'
+import Gallery from './pages/Gallery.jsx'
+import AboutUs from './pages/AboutUs.jsx'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
+
+function Home({ onCreateClick }) {
+  return (
+    <>
+      <Hero onCreateClick={onCreateClick} />
+      <FeaturedStories />
+    </>
+  )
+}
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [view, setView] = useState('home') // 'home' | 'create'
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen text-parchment">
-      <Navbar onMenuClick={() => setSidebarOpen(true)} />
+      <ScrollToTop />
+      
+      {/* Connected all navigation paths to the React Router engine */}
+      <Navbar 
+        onMenuClick={() => setSidebarOpen(true)} 
+        onCreateClick={() => navigate('/create')}
+        onGalleryClick={() => navigate('/gallery')}
+        onAboutClick={() => navigate('/about')}
+      />
+      
       <Sidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        userName="Leah"
-        onNavigate={setView}
+        userName="Aaliyah"
+        onNavigate={navigate}
       />
 
-      {view === 'home' ? (
-        <>
-          <Hero onCreateClick={() => setView('create')} />
-          <FeaturedStories />
-        </>
-      ) : (
-        <Createstory onCancel={() => setView('home')} />
-      )}
+      <Routes>
+        <Route path="/" element={<Home onCreateClick={() => navigate('/create')} />} />
+        <Route path="/create" element={<Createstory onCancel={() => navigate('/')} />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/about" element={<AboutUs />} />
+      </Routes>
 
       <Footer />
     </div>
