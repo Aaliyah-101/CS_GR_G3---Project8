@@ -1,0 +1,35 @@
+[
+  {
+    "id": "3f9f58fc-3f02-4c8b-86aa-d0fdd15dc827",
+    "title": "Malaria Awareness",
+    "category": "Health Education",
+    "tone": "Hopeful",
+    "audience": {
+      "id": "General Public",
+      "label": "General Public"
+    },
+    "language": "English",
+    "audioNarration": false,
+    "facts": [
+      {
+        "id": "fact-1",
+        "text": "Sleeping under insecticide-treated mosquito nets can reduce the risk of mosquito bites."
+      }
+    ],
+    "narrative": {
+      "protagonist": "A young Ugandan community member",
+      "arc": "The community member learns practical ways to prevent malaria."
+    },
+    "scenes": [
+      {
+        "id": "scene-1",
+        "caption": "A community learns about malaria prevention.",
+        "imagePrompt": "Ugandan community learning about malaria prevention.",
+        "artKey": "village",
+        "characters": [
+          "community members"
+        ]
+      }
+    ]
+  }
+]
