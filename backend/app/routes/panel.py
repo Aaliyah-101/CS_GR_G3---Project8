@@ -2,6 +2,8 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List
 
+from app.services.image_service import generate_panel_image
+
 
 router = APIRouter()
 
@@ -31,16 +33,77 @@ class PanelRequest(BaseModel):
 def generate_panel(request: PanelRequest):
 
     """
-    Temporary panel-generation endpoint.
-
-    For now this simulates the image-generation service.
-    Later this function will call the actual LVM/image
-    generation model.
+    Generate an actual visual panel from the scene image prompt.
     """
+
+    # --------------------------------------------------------
+    # Build a richer visual prompt
+    # --------------------------------------------------------
+
+    character_description = ""
+
+    if request.characters:
+
+        character_description = (
+            "Characters in the scene: "
+            + ", ".join(request.characters)
+            + ". "
+        )
+
+
+    final_prompt = f"""
+Create a high-quality visual storytelling panel for a Ugandan
+educational comic.
+
+Scene:
+{request.image_prompt}
+
+{character_description}
+
+Visual style:
+- culturally appropriate Ugandan environment
+- warm, expressive storytelling
+- clear character poses and emotions
+- visually consistent comic illustration
+- cinematic composition
+- detailed background
+- suitable for public education
+- no unnecessary written text inside the image
+- no speech bubbles
+- no captions
+- no logos
+
+The image should clearly communicate the action described in
+the scene.
+"""
+
+
+    # --------------------------------------------------------
+    # Generate filename
+    # --------------------------------------------------------
+
+    filename = (
+        f"{request.scene_id}_{request.art_key}.png"
+    )
+
+
+    # --------------------------------------------------------
+    # Generate image
+    # --------------------------------------------------------
+
+    image_path = generate_panel_image(
+        prompt=final_prompt,
+        filename=filename
+    )
+
+
+    # --------------------------------------------------------
+    # Return result
+    # --------------------------------------------------------
 
     return {
 
-        "message": "Panel generation endpoint is working!",
+        "message": "Panel generated successfully!",
 
         "panel": {
 
@@ -54,12 +117,11 @@ def generate_panel(request: PanelRequest):
 
             "art_key": request.art_key,
 
-            # Temporary placeholder.
-            # PanelGenStep will use this to determine
-            # whether a generated image exists.
-            "image_url": None,
+            "image_url": (
+                f"/generated-images/{filename}"
+            ),
 
-            "status": "ready_for_generation"
+            "status": "generated"
 
         }
 

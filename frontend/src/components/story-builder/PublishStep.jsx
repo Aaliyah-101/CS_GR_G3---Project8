@@ -72,24 +72,42 @@ export default function PublishStep({
       // --------------------------------------------------------
       // SCENES
       // --------------------------------------------------------
+      // Merge in whatever image was generated for each scene during the
+      // Panel Gen step (data.panels), matched by scene id. Without this,
+      // the publish payload only carries the *prompt* for each scene, not
+      // the actual generated image — and the gallery has nothing to show.
+      // Both `imageUrl` and `image_url` are sent since the generate-panel
+      // and stories endpoints have been observed using different casing;
+      // confirm with the backend which one it actually persists/reads and
+      // this can be trimmed to just that one.
 
-      scenes: data.scenes.map((scene) => ({
-        id: scene.id,
+      scenes: data.scenes.map((scene) => {
+        const panel = data.panels?.find(
+          (p) => p.scene_id === scene.id
+        )
 
-        caption: scene.caption,
+        return {
+          id: scene.id,
 
-        imagePrompt: scene.imagePrompt,
+          caption: scene.caption,
 
-        artKey: scene.artKey || 'village',
+          imagePrompt: scene.imagePrompt,
 
-        characters:
-          Array.isArray(scene.characters)
-            ? scene.characters
-            : String(scene.characters || '')
-                .split(',')
-                .map((character) => character.trim())
-                .filter(Boolean),
-      })),
+          artKey: scene.artKey || 'village',
+
+          characters:
+            Array.isArray(scene.characters)
+              ? scene.characters
+              : String(scene.characters || '')
+                  .split(',')
+                  .map((character) => character.trim())
+                  .filter(Boolean),
+
+          // Generated image from the Panel Gen step, if any.
+          imageUrl: panel?.image_url || null,
+          image_url: panel?.image_url || null,
+        }
+      }),
     }
   }
 

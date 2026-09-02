@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.models.story import StoryRequest
 from app.database.models import Story, StoryFact, StoryScene
 from app.database.database import get_db
 
-from app.services.story_generator import generate_story
+from app.services.story_ai import generate_visualug_story
 
 
 router = APIRouter()
@@ -18,7 +18,7 @@ router = APIRouter()
 @router.post("/generate")
 def generate_story_endpoint(request: StoryRequest):
 
-    story = generate_story(
+    story = generate_visualug_story(
         title=request.title,
         category=request.category,
         tone=request.tone,
@@ -60,7 +60,6 @@ def publish_story(
         audience = audience.get("label")
 
     narrative = request.get("narrative", {})
-
 
     db_story = Story(
         title=request.get("title", ""),
@@ -118,7 +117,6 @@ def publish_story(
         if isinstance(characters, list):
             characters = ", ".join(characters)
 
-
         db_scene = StoryScene(
             story_id=db_story.id,
             scene_id=scene.get("id"),
@@ -141,7 +139,6 @@ def publish_story(
 
     db.refresh(db_story)
 
-
     print(
         f"Story saved with ID: {db_story.id}"
     )
@@ -151,6 +148,8 @@ def publish_story(
         "message": "Story published successfully!",
         "story_id": db_story.id
     }
+
+
 # ============================================================
 # GET ALL PUBLISHED STORIES
 # ============================================================
