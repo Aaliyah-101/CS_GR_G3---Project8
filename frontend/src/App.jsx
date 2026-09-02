@@ -31,17 +31,17 @@ export default function App() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen text-parchment">
+    <div className="app-shell min-h-screen text-slate-900">
       <ScrollToTop />
-      
+
       {/* Connected all navigation paths to the React Router engine */}
-      <Navbar 
-        onMenuClick={() => setSidebarOpen(true)} 
+      <Navbar
+        onMenuClick={() => setSidebarOpen(true)}
         onCreateClick={() => navigate('/create')}
         onGalleryClick={() => navigate('/gallery')}
         onAboutClick={() => navigate('/about')}
       />
-      
+
       <Sidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

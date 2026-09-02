@@ -11,10 +11,10 @@ export default function PanelGenStep({ data, onVerify }) {
   )
 
   return (
-    <div className="rounded-lg border border-panelLine bg-panel p-6">
-      <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">Stage 6 · Character/Object Generation</p>
-      <h2 className="mt-2 font-display text-xl font-semibold">Generated panels</h2>
-      <p className="mt-1 max-w-xl font-body text-sm text-sienna">
+    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
+      <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">Stage 6 · Character/Object Generation</p>
+      <h2 className="mt-2 text-xl font-semibold text-slate-900">Generated panels</h2>
+      <p className="mt-1 max-w-xl text-sm text-slate-600">
         Each named character keeps the same colour tag across every panel — the visual anchor a real
         diffusion pipeline would enforce with image embeddings instead of a flat colour.
       </p>
@@ -24,13 +24,13 @@ export default function PanelGenStep({ data, onVerify }) {
           const names = parseCharacters(scene.characters)
           const colors = names.map((n) => colorForCharacter(n, allCharacterNames))
           return (
-            <div key={scene.id} className="overflow-hidden rounded-lg border border-panelLine bg-ink">
+            <div key={scene.id} className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-soft">
               <div className="aspect-[4/3]">
                 <PanelArt artKey={scene.artKey} colors={colors} />
               </div>
               <div className="p-3">
-                <span className="font-mono text-[10px] text-sienna/70">Panel {i + 1}</span>
-                <p className="font-body text-xs font-medium text-parchment">{scene.caption}</p>
+                <span className="font-mono text-[10px] text-slate-600">Panel {i + 1}</span>
+                <p className="text-xs font-medium text-slate-900">{scene.caption}</p>
               </div>
             </div>
           )
@@ -42,7 +42,7 @@ export default function PanelGenStep({ data, onVerify }) {
           {allCharacterNames.map((name) => (
             <span
               key={name}
-              className="flex items-center gap-1.5 rounded-full border border-panelLine px-2.5 py-1 font-mono text-[11px] text-sienna"
+              className="flex items-center gap-1.5 rounded-full border border-slate-200 px-2.5 py-1 font-mono text-[11px] text-slate-600"
             >
               <span
                 className="h-2.5 w-2.5 rounded-full"
@@ -54,11 +54,11 @@ export default function PanelGenStep({ data, onVerify }) {
         </div>
       )}
 
-      <div className="mt-7 border-t border-panelLine pt-6">
+      <div className="mt-7 border-t border-slate-200 pt-6">
         <button
           type="button"
           onClick={onVerify}
-          className="rounded-md bg-amber px-5 py-2.5 font-body text-sm font-semibold text-ink transition hover:bg-amber/90"
+          className="rounded-md bg-[#2B7A4B] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#2B7A4B]/90"
         >
           Run verification →
         </button>

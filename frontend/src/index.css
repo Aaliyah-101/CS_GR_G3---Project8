@@ -1,53 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --bg-900: #fffef9;
+  --bg-800: #f8f6ef;
+  --bg-700: #f1f9f3;
+  --panel: rgba(255, 255, 255, 0.82);
+  --panel-strong: rgba(255, 255, 255, 0.96);
+  --panel-soft: rgba(247, 247, 244, 0.9);
+  --line: rgba(148, 163, 184, 0.3);
+  --text: #1f2937;
+  --muted: #5f6f7d;
+  --primary: #f5c400;
+  --secondary: #2b7a4b;
+  --warm: #d62828;
+  --highlight: #fcdc4d;
+}
+
 @keyframes wiggleFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(-1deg);
+  0%,
+  100% {
+   transform: translateY(0) rotate(-1deg);
   }
 
   50% {
-    transform: translateY(-10px) rotate(1deg);
+   transform: translateY(-10px) rotate(1deg);
   }
 }
-
 
 .animate-wiggle-float {
   animation: wiggleFloat 6s ease-in-out infinite;
 }
 
 @layer base {
+  html {
+   scroll-behavior: smooth;
+  }
+
   body {
-    @apply text-[#F0FDFA] antialiased;
-   background-color: #071A1D;
+   @apply antialiased;
+   font-family: 'Plus Jakarta Sans', sans-serif;
+   background:
+     radial-gradient(circle at top left, rgba(245, 196, 0, 0.18), transparent 26%),
+     radial-gradient(circle at right center, rgba(43, 122, 75, 0.12), transparent 24%),
+     linear-gradient(180deg, #fffef9 0%, #f8f8f3 26%, #f4f9f6 100%);
+   color: var(--text);
+   background-attachment: fixed;
+  }
 
-    background-image: radial-gradient(
-      ellipse 90% 60% at 50% 120%,
-      #2DD4BF 0%,
-      #0D2929 30%,
-      #071A1D 65%
-    );
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+   font-family: 'Manrope', sans-serif;
+   letter-spacing: -0.04em;
+  }
 
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+  a,
+  button,
+  input,
+  textarea,
+  select {
+   font-family: 'Manrope', sans-serif;
   }
 }
-/* Subtle bark-cloth (olubugo) texture: hand-beaten, irregular fiber lines.
-   Used once, in the hero, as the page's signature — not sprinkled everywhere. */
+
+.app-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.app-shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 20% 10%, rgba(245, 196, 0, 0.12), transparent 22%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.eyebrow {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--secondary);
+}
+
+.eyebrow-soft {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #c4b5fd;
+}
+
+.section-heading {
+  font-size: clamp(2.4rem, 4vw, 4.2rem);
+  line-height: 0.97;
+  font-weight: 800;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #2b7a4b 0%, #f5c400 40%, #d62828 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .health-texture {
   background-image:
-    repeating-linear-gradient(
-      115deg,
-      rgba(45, 212, 191, 0.12) 0px,
-      rgba(45, 212, 191, 0.12) 1px,
-      transparent 1px,
-      transparent 14px
-    ),
-    repeating-linear-gradient(
-      25deg,
-      rgba(153, 246, 228, 0.08) 0px,
-      rgba(153, 246, 228, 0.08) 1px,
-      transparent 1px,
-      transparent 22px
-    );
+   repeating-linear-gradient(
+     115deg,
+     rgba(139, 92, 246, 0.08) 0px,
+     rgba(139, 92, 246, 0.08) 1px,
+     transparent 1px,
+     transparent 14px
+   ),
+   repeating-linear-gradient(
+     25deg,
+     rgba(34, 211, 238, 0.08) 0px,
+     rgba(34, 211, 238, 0.08) 1px,
+     transparent 1px,
+     transparent 22px
+   );
 }

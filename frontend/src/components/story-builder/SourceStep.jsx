@@ -40,32 +40,32 @@ export default function SourceStep({ data, update, onVerify }) {
   const canVerify = data.title.trim().length > 0 && data.sourceText.trim().length > 20
 
   return (
-    <div className="rounded-lg border border-panelLine bg-panel p-6">
-      <label className="block font-body text-sm font-medium text-parchment">Story title</label>
+    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
+      <label className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">Story title</label>
       <input
         value={data.title}
         onChange={(e) => update({ title: e.target.value })}
         placeholder="e.g. Malaria Fighters"
-        className="mt-2 w-full rounded-md border border-panelLine bg-ink px-3 py-2 font-body text-sm text-parchment placeholder:text-sienna/60 focus:border-amber focus:outline-none"
+        className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#2B7A4B] focus:outline-none"
       />
 
       <div className="mt-5 grid grid-cols-2 gap-4">
         <div>
-          <label className="block font-body text-sm font-medium text-parchment">Category</label>
+          <label className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">Category</label>
           <select
             value={data.category}
             onChange={(e) => update({ category: e.target.value })}
-            className="mt-2 w-full rounded-md border border-panelLine bg-ink px-3 py-2 font-body text-sm text-parchment focus:border-amber focus:outline-none"
+            className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-[#2B7A4B] focus:outline-none"
           >
             {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
         <div>
-          <label className="block font-body text-sm font-medium text-parchment">Tone</label>
+          <label className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">Tone</label>
           <select
             value={data.tone}
             onChange={(e) => update({ tone: e.target.value })}
-            className="mt-2 w-full rounded-md border border-panelLine bg-ink px-3 py-2 font-body text-sm text-parchment focus:border-amber focus:outline-none"
+            className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-[#2B7A4B] focus:outline-none"
           >
             {TONES.map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
@@ -73,12 +73,12 @@ export default function SourceStep({ data, update, onVerify }) {
       </div>
 
       <div className="mt-7">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">Source material</p>
-        <p className="mt-1 font-body text-xs text-sienna">
+        <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">Source material</p>
+        <p className="mt-1 text-xs text-slate-600">
           The document facts will be extracted from. Type it, upload a file, or record a voice note.
         </p>
 
-        <div className="mt-3 inline-flex rounded-md border border-panelLine p-0.5">
+        <div className="mt-3 inline-flex rounded-md border border-slate-200 p-0.5">
           {[
             { id: 'type', label: 'Type', icon: IconType },
             { id: 'upload', label: 'Upload', icon: IconUpload },
@@ -88,8 +88,8 @@ export default function SourceStep({ data, update, onVerify }) {
               key={id}
               type="button"
               onClick={() => setInputMethod(id)}
-              className={`flex items-center gap-1.5 rounded px-3 py-1.5 font-body text-xs font-medium transition ${
-                inputMethod === id ? 'bg-amber text-ink' : 'text-sienna hover:text-parchment'
+              className={`flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-medium transition ${
+                inputMethod === id ? 'bg-[#2B7A4B] text-white' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <Icon size={13} />
@@ -104,7 +104,7 @@ export default function SourceStep({ data, update, onVerify }) {
             onChange={(e) => update({ sourceText: e.target.value })}
             placeholder="Paste or type the source information here…"
             rows={8}
-            className="mt-3 w-full resize-none rounded-md border border-panelLine bg-ink px-3 py-2 font-body text-sm text-parchment placeholder:text-sienna/60 focus:border-amber focus:outline-none"
+            className="mt-3 w-full resize-none rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#2B7A4B] focus:outline-none"
           />
         )}
 
@@ -113,7 +113,7 @@ export default function SourceStep({ data, update, onVerify }) {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-panelLine py-8 font-body text-sm text-sienna transition hover:border-amber/50 hover:text-amber"
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-200 py-8 text-sm text-slate-600 transition hover:border-[#2B7A4B]/50 hover:text-[#2B7A4B]"
             >
               <IconUpload size={16} />
               {data.fileName ? `Replace "${data.fileName}"` : 'Choose a file (.txt, .md, .pdf, .docx)'}
@@ -126,30 +126,30 @@ export default function SourceStep({ data, update, onVerify }) {
               className="hidden"
             />
             {data.fileName && (
-              <div className="mt-2 flex items-center gap-2 font-mono text-xs text-sienna">
+              <div className="mt-2 flex items-center gap-2 font-mono text-xs text-slate-600">
                 <IconFile size={13} /> {data.fileName}
               </div>
             )}
-            {fileError && <p className="mt-2 font-body text-xs text-clay">{fileError}</p>}
+            {fileError && <p className="mt-2 text-xs text-[#D62828]">{fileError}</p>}
             {data.sourceText && (
               <textarea
                 value={data.sourceText}
                 onChange={(e) => update({ sourceText: e.target.value })}
                 rows={6}
-                className="mt-3 w-full resize-none rounded-md border border-panelLine bg-ink px-3 py-2 font-body text-sm text-parchment focus:border-amber focus:outline-none"
+                className="mt-3 w-full resize-none rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-[#2B7A4B] focus:outline-none"
               />
             )}
           </div>
         )}
 
         {inputMethod === 'record' && (
-          <div className="mt-3 rounded-lg border border-panelLine p-5">
+          <div className="mt-3 rounded-lg border border-slate-200 p-5">
             <div className="flex items-center gap-4">
               {!recorder.recording ? (
                 <button
                   type="button"
                   onClick={recorder.start}
-                  className="flex items-center gap-2 rounded-full bg-clay px-4 py-2 font-body text-sm font-semibold text-ink transition hover:bg-clay/90"
+                  className="flex items-center gap-2 rounded-full bg-[#2B7A4B] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#2B7A4B]/90"
                 >
                   <IconMic size={15} /> Start recording
                 </button>
@@ -157,26 +157,26 @@ export default function SourceStep({ data, update, onVerify }) {
                 <button
                   type="button"
                   onClick={recorder.stop}
-                  className="flex items-center gap-2 rounded-full bg-amber px-4 py-2 font-body text-sm font-semibold text-ink transition hover:bg-amber/90"
+                  className="flex items-center gap-2 rounded-full bg-[#F5C400] px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-[#F5C400]/90"
                 >
                   <IconSquare size={15} /> Stop ({formatSeconds(recorder.seconds)})
                 </button>
               )}
               {recorder.recording && (
-                <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-clay" aria-hidden="true" />
+                <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#D62828]" aria-hidden="true" />
               )}
             </div>
 
-            {recorder.error && <p className="mt-3 font-body text-xs text-clay">{recorder.error}</p>}
+            {recorder.error && <p className="mt-3 text-xs text-[#D62828]">{recorder.error}</p>}
 
             {recorder.audioUrl && (
               <div className="mt-4 space-y-3">
                 <audio controls src={recorder.audioUrl} className="w-full" />
                 <div>
-                  <label className="block font-body text-xs font-medium text-parchment">
+                  <label className="block text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">
                     Transcript
                   </label>
-                  <p className="mt-0.5 font-body text-[11px] text-sienna">
+                  <p className="mt-0.5 text-[11px] text-slate-600">
                     Speech-to-text isn't connected in this prototype — type what you said so the
                     pipeline has text to work with. (Swap this for real ASR, e.g. Whisper, later.)
                   </p>
@@ -185,7 +185,7 @@ export default function SourceStep({ data, update, onVerify }) {
                     onChange={(e) => update({ sourceText: e.target.value })}
                     rows={5}
                     placeholder="Type the transcript of your recording…"
-                    className="mt-2 w-full resize-none rounded-md border border-panelLine bg-ink px-3 py-2 font-body text-sm text-parchment placeholder:text-sienna/60 focus:border-amber focus:outline-none"
+                    className="mt-2 w-full resize-none rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#2B7A4B] focus:outline-none"
                   />
                 </div>
               </div>
@@ -199,12 +199,12 @@ export default function SourceStep({ data, update, onVerify }) {
           type="button"
           disabled={!canVerify}
           onClick={onVerify}
-          className="rounded-md bg-amber px-5 py-2.5 font-body text-sm font-semibold text-ink transition hover:bg-amber/90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-md bg-[#2B7A4B] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#2B7A4B]/90 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Extract key facts →
         </button>
         {!canVerify && (
-          <span className="font-body text-xs text-sienna">Add a title and at least a couple of sentences of source text.</span>
+          <span className="text-xs text-slate-600">Add a title and at least a couple of sentences of source text.</span>
         )}
       </div>
     </div>

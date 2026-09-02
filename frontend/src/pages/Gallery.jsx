@@ -97,14 +97,14 @@ export default function Gallery() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="mb-8">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#2DD4BF]">
+        <p className="eyebrow text-[#2B7A4B]">
           Share & Discover
         </p>
-        <h1 className="mt-2 font-display text-3xl font-semibold">
-          Media from Pearl Visual stories
+        <h1 className="mt-3 section-heading text-slate-900">
+          Media from <span className="gradient-text">Pearl Visual</span> stories
         </h1>
-        <p className="mt-2 max-w-xl font-body text-sm text-[#94A3B8]">
-          Browse visuals generated for published stories, or share your own
+        <p className="mt-4 max-w-xl text-base text-slate-600">
+          Browse visuals generated for published stories or share your own
           photos for the community to draw on.
         </p>
       </div>
@@ -115,18 +115,18 @@ export default function Gallery() {
         onDragLeave={() => setDragActive(false)}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`mb-10 flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-10 text-center transition ${
-          dragActive ? 'border-[#2DD4BF] bg-[#2DD4BF]/5' : 'border-[#164E4A] hover:border-[#2DD4BF]/40'
+        className={`glass-panel mb-10 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed p-10 text-center transition ${
+          dragActive ? 'border-[#2B7A4B]/60 bg-[#F0FAF3] shadow-glow' : 'border-slate-200 hover:border-[#F5C400]'
         }`}
       >
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-[#2DD4BF]">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="text-[#2B7A4B]">
           <path d="M12 16V4M12 4l-4 4M12 4l4 4" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <p className="mt-3 font-body text-sm text-[#F0FDFA]">
+        <p className="mt-4 text-lg font-semibold text-slate-900">
           Drag photos here, or click to upload
         </p>
-        <p className="mt-1 font-mono text-xs text-[#94A3B8]">PNG, JPG — shared to the community gallery</p>
+        <p className="mt-2 text-sm text-slate-600">PNG, JPG — shared to the community gallery</p>
         <input
           ref={fileInputRef}
           type="file"
@@ -138,15 +138,15 @@ export default function Gallery() {
       </div>
 
       {/* Filter tabs */}
-      <div className="mb-6 flex gap-2">
+      <div className="mb-6 flex flex-wrap gap-2">
         {FILTERS.map((f) => (
           <button
             key={f.value}
             onClick={() => setFilter(f.value)}
-            className={`rounded-full px-4 py-1.5 font-mono text-xs uppercase tracking-wide transition ${
+            className={`rounded-full px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.22em] transition ${
               filter === f.value
-                ? 'bg-[#2DD4BF] text-[#071A1D]'
-                : 'border border-[#164E4A] text-[#94A3B8] hover:text-parchment'
+                ? 'bg-gradient-to-r from-[#F5C400] to-[#2B7A4B] text-slate-950 shadow-glow'
+                : 'border border-slate-200 bg-white text-slate-600 hover:border-[#F5C400] hover:text-[#2B7A4B]'
             }`}
           >
             {f.label}
@@ -156,7 +156,7 @@ export default function Gallery() {
 
       {/* Grid */}
       {visibleItems.length === 0 ? (
-        <p className="py-16 text-center font-body text-sm text-[#94A3B8]">
+        <p className="py-16 text-center text-sm text-slate-600">
           Nothing here yet.
         </p>
       ) : (
@@ -165,16 +165,17 @@ export default function Gallery() {
             <button
               key={item.id}
               onClick={() => setSelected(item)}
-              className="group relative aspect-square overflow-hidden rounded-lg border border-panelLine"
+              className="group relative aspect-square overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft"
             >
               <img
                 src={item.src}
                 alt={item.caption}
                 className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/25 via-transparent to-transparent" />
               <span
-                className={`absolute left-2 top-2 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide ${
-                  item.source === 'ai' ? 'bg-[#2DD4BF]/80 text-[#071A1D]' : 'bg-[#071A1D]/80 text-[#2DD4BF]'
+                className={`absolute left-2 top-2 rounded-full px-2 py-1 text-[10px] font-extrabold uppercase tracking-[0.2em] ${
+                  item.source === 'ai' ? 'bg-[#2B7A4B] text-white' : 'bg-[#F5C400] text-slate-950'
                 }`}
               >
                 {item.source === 'ai' ? 'AI' : 'Community'}
@@ -188,17 +189,17 @@ export default function Gallery() {
       {selected && (
         <div
           onClick={() => setSelected(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/90 p-6 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 p-6 backdrop-blur-sm"
         >
           <div
-            onClick={(e) => e.stopPropagation()}
-            className="max-w-lg overflow-hidden rounded-lg border border-[#164E4A] bg-[#0D2929]"
+           onClick={(e) => e.stopPropagation()}
+           className="max-w-lg overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft"
           >
             <img src={selected.src} alt={selected.caption} className="w-full" />
-            <div className="p-4">
-              <p className="font-body text-sm text-parchment">{selected.caption}</p>
+            <div className="p-5">
+              <p className="text-base font-semibold text-slate-900">{selected.caption}</p>
               {selected.story && (
-                <p className="mt-1 font-mono text-xs text-sienna">
+                <p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-[#2B7A4B]">
                   From: {selected.story}
                 </p>
               )}

@@ -114,18 +114,18 @@ export default function CreateStory({ onCancel }) {
   const audience = data.audienceOptions.find((a) => a.id === data.audienceId)
 
   return (
-    <section className="bark-texture mx-auto max-w-6xl px-6 py-16">
+    <section className="mx-auto max-w-6xl px-6 py-16 bg-white">
       <div className="mb-10 flex items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">New Story</p>
-          <h1 className="mt-2 font-display text-3xl font-semibold">Build your story, verified step by step</h1>
-          <p className="mt-2 max-w-xl font-body text-sm text-sienna">
+          <p className="eyebrow text-[#2B7A4B]">New Story</p>
+          <h1 className="mt-3 section-heading text-slate-900">Build your <span className="gradient-text">story</span> verified <span className="gradient-text">step by step</span></h1>
+          <p className="mt-2 max-w-xl text-sm text-slate-600">
             Source → extraction → audience → narrative → storyboard → panels → verification → publish.
             Each stage needs a quick confirmation before the next one unlocks.
           </p>
         </div>
         {onCancel && (
-          <button type="button" onClick={onCancel} className="shrink-0 font-body text-sm text-sienna hover:text-parchment">
+          <button type="button" onClick={onCancel} className="shrink-0 text-sm text-slate-600 transition hover:text-[#2B7A4B]">
             Cancel
           </button>
         )}
@@ -139,45 +139,45 @@ export default function CreateStory({ onCancel }) {
         </div>
 
         {/* ---- Live overview, persistent across steps ---- */}
-        <aside className="h-fit rounded-lg border border-panelLine bg-panel p-6 lg:sticky lg:top-24">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">Overview</p>
-          <h2 className="mt-2 font-display text-xl font-semibold">{data.title || 'Untitled story'}</h2>
-          <p className="mt-1 font-mono text-[11px] text-sienna">{data.category} · {data.tone}</p>
+        <aside className="h-fit rounded-lg border border-slate-200 bg-slate-50 p-6 lg:sticky lg:top-24 shadow-soft">
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">Overview</p>
+          <h2 className="mt-2 text-xl font-semibold text-slate-900">{data.title || 'Untitled story'}</h2>
+          <p className="mt-1 font-mono text-[11px] text-slate-600">{data.category} · {data.tone}</p>
 
           {audience && (
-            <p className="mt-3 font-body text-xs text-sienna">
-              For <span className="text-parchment">{audience.label}</span> · narrated in{' '}
-              <span className="text-parchment">{data.language}</span>
+            <p className="mt-3 text-xs text-slate-600">
+              For <span className="font-semibold text-slate-900">{audience.label}</span> · narrated in{' '}
+              <span className="font-semibold text-slate-900">{data.language}</span>
             </p>
           )}
 
           {data.facts.length > 0 && (
-            <p className="mt-3 font-mono text-[11px] text-sienna">
+            <p className="mt-3 font-mono text-[11px] text-slate-600">
               {data.facts.filter((f) => f.included).length} of {data.facts.length} facts grounded
             </p>
           )}
 
           {data.arc && (
-            <p className="mt-3 font-body text-xs italic leading-relaxed text-sienna line-clamp-4">
+            <p className="mt-3 text-xs italic leading-relaxed text-slate-600 line-clamp-4">
               {data.arc}
             </p>
           )}
 
-          <ol className="mt-5 space-y-4 border-t border-panelLine pt-4">
+          <ol className="mt-5 space-y-4 border-t border-slate-200 pt-4">
             {data.scenes.map((scene, i) => (
-              <li key={scene.id} className="border-l-2 border-panelLine pl-4">
-                <p className="font-mono text-[11px] text-amber">Scene {i + 1}</p>
-                <p className="mt-1 font-body text-sm text-parchment">{scene.caption || 'Not written yet.'}</p>
+              <li key={scene.id} className="border-l-2 border-[#2B7A4B] pl-4">
+                <p className="font-mono text-[11px] text-[#F5C400]">Scene {i + 1}</p>
+                <p className="mt-1 text-sm text-slate-900">{scene.caption || 'Not written yet.'}</p>
               </li>
             ))}
           </ol>
 
-          <div className="mt-5 flex flex-wrap gap-1 border-t border-panelLine pt-4">
+          <div className="mt-5 flex flex-wrap gap-1 border-t border-slate-200 pt-4">
             {STEPS.map((s) => (
               <span
                 key={s.id}
                 className={`rounded-full px-2 py-0.5 font-mono text-[9px] uppercase tracking-wide ${
-                  verifiedSteps.includes(s.id) ? 'bg-amber/15 text-amber' : 'bg-ink text-sienna'
+                  verifiedSteps.includes(s.id) ? 'bg-[#2B7A4B]/15 text-[#2B7A4B]' : 'bg-slate-200 text-slate-600'
                 }`}
               >
                 {s.label}
