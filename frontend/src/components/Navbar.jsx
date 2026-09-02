@@ -9,15 +9,13 @@ export default function Navbar({
   return (
     <nav
       className="
-        border-b border-[#164E4A]/50
-        bg-[#071A1D]/85
-        backdrop-blur-md
         sticky top-0 z-50
-        transition-all duration-300
+        border-b border-slate-200/80
+        bg-white/80 backdrop-blur-xl
       "
     >
 
-      <div className="mx-auto max-w-7xl px-6 h-20 flex items-center justify-between">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
 
         {/* LEFT SIDE: Brand + Menu */}
         <div className="flex items-center gap-4">
@@ -27,14 +25,14 @@ export default function Navbar({
             type="button"
             onClick={onMenuClick}
             className="
-              flex flex-col gap-1.5
-              p-2
-              rounded-lg
-              border border-[#164E4A]/40
-              hover:border-[#2DD4BF]/50
-              hover:bg-[#0D2929]
-              transition-all
               group
+              flex flex-col gap-1.5
+              rounded-xl
+              border border-slate-200
+              bg-white p-2
+              transition
+              hover:border-[#F5C400]
+              hover:bg-[#FFF8D6]
             "
             aria-label="Open sidebar"
           >
@@ -42,28 +40,30 @@ export default function Navbar({
             <span
               className="
                 h-0.5 w-5
-                bg-[#94A3B8]
-                group-hover:bg-[#5EEAD4]
-                transition-colors
+                bg-slate-600
+                transition
+                group-hover:bg-[#2B7A4B]
               "
             />
 
+
             <span
-              className="
-                h-0.5 w-5
-                bg-[#94A3B8]
-                group-hover:bg-[#5EEAD4]
-                transition-colors
-              "
-            />
+               className="
+               h-0.5 w-5
+               bg-slate-600
+               transition
+               group-hover:bg-[#2B7A4B]
+             "
+           />
+
 
             <span
               className="
                 h-0.5 w-4
-                bg-[#94A3B8]
-                group-hover:bg-[#5EEAD4]
-                transition-colors
                 self-start
+                bg-slate-600
+                transition
+                group-hover:bg-[#2B7A4B]
               "
             />
 
@@ -73,20 +73,33 @@ export default function Navbar({
           {/* BRAND */}
           <a
             href="#"
-            className="flex items-center gap-3 group"
+            className="group flex items-center gap-3">
+            <div
+            className="
+              flex h-10 w-10 items-center
+              justify-center
+              rounded-xl
+              bg-gradient-to-br
+              from-[#F5C400]
+              via-[#FCDC4D]
+              to-[#2B7A4B]
+              font-black
+              text-slate-950
+              shadow-soft
+            "
           >
-
+              PV
+            </div>
             <div className="flex flex-col">
 
               <span
                 className="
                   text-sm
-                  font-bold
+                  font-extrabold
                   tracking-tight
-                  text-[#F0FDFA]
-                  leading-tight
-                  group-hover:text-[#5EEAD4]
-                  transition-colors
+                  text-slate-900
+                  transition
+                  group-hover:text-[#2B7A4B]
                 "
               >
                 Pearl Visual
@@ -94,17 +107,15 @@ export default function Navbar({
 
               <span
                 className="
+                  mt-1
                   text-[9px]
                   uppercase
-                  tracking-[0.15em]
-                  text-[#94A3B8]
-                  leading-none
-                  mt-1
+                  tracking-[0.18em]
+                  text-slate-500
                 "
               >
                 LVM Visual Creator
               </span>
-
             </div>
 
           </a>
@@ -113,26 +124,25 @@ export default function Navbar({
 
 
         {/* CENTER NAVIGATION */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center gap-8 md:flex">
 
           {/* HOW IT WORKS */}
           <a
             href="/about"
             onClick={(e) => {
-              e.preventDefault()
+              e.preventDefault();
 
-              if (onAboutClick) {
-                onAboutClick()
-              }
+              if (onAboutClick)
+              onAboutClick()
             }}
             className="
-              text-xs
-              font-semibold
+              text-[11px]
+              font-extrabold
               uppercase
-              tracking-widest
-              text-[#94A3B8]
-              hover:text-[#5EEAD4]
-              transition-colors
+              tracking-[0.22em]
+              text-slate-600
+              transition
+              hover:text-[#2B7A4B]
             "
           >
             How It Works
@@ -143,20 +153,19 @@ export default function Navbar({
           <a
             href="/gallery"
             onClick={(e) => {
-              e.preventDefault()
+              e.preventDefault();
 
-              if (onGalleryClick) {
-                onGalleryClick()
-              }
+              if (onGalleryClick)
+              onGalleryClick()
             }}
             className="
-              text-xs
-              font-semibold
+              text-[11px]
+              font-extrabold
               uppercase
-              tracking-widest
-              text-[#94A3B8]
-              hover:text-[#5EEAD4]
-              transition-colors
+              tracking-[0.22em]
+              text-slate-600
+              transition
+              hover:text-[#2B7A4B]
             "
           >
             Browse Stories
@@ -167,20 +176,19 @@ export default function Navbar({
           <a
             href="/about"
             onClick={(e) => {
-              e.preventDefault()
+              e.preventDefault();
 
-              if (onAboutClick) {
+              if (onAboutClick)
                 onAboutClick()
-              }
             }}
             className="
-              text-xs
-              font-semibold
+              text-[11px]
+              font-extrabold
               uppercase
-              tracking-widest
-              text-[#94A3B8]
-              hover:text-[#5EEAD4]
-              transition-colors
+              tracking-[0.22em]
+              text-slate-600
+              transition
+              hover:text-[#2B7A4B]
             "
           >
             Features
@@ -196,20 +204,20 @@ export default function Navbar({
             type="button"
             onClick={onCreateClick}
             className="
-              rounded-lg
-              bg-[#2DD4BF]
-              px-4
-              py-2
-              text-xs
-              font-bold
+              rounded-xl
+              bg-gradient-to-r
+              from-[#F5C400]
+              to-[#2B7A4B]
+              px-4 py-2.5
+              text-[11px]
+              font-extrabold
               uppercase
-              tracking-wider
-              text-[#071A1D]
-              shadow-[0_0_20px_rgba(45,212,191,0.15)]
-              hover:bg-[orange]
+              tracking-[0.18em]
+              text-slate-950
+              shadow-glow
+              transition
               hover:-translate-y-0.5
-              active:translate-y-0
-              transition-all
+              hover:shadow-soft
             "
           >
             Get Started

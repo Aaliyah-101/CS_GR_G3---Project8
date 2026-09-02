@@ -329,28 +329,28 @@ export default function PanelGenStep({
 
   return (
 
-    <div className="rounded-lg border border-panelLine bg-panel p-6">
+    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
 
 
       {/* ========================================================
           HEADER
       ======================================================== */}
 
-      <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">
+      <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">
 
         Stage 6 · Character/Object Generation
 
       </p>
 
 
-      <h2 className="mt-2 font-display text-xl font-semibold">
+      <h2 className="mt-2 text-xl font-semibold text-slate-900">
 
         Generated panels
 
       </h2>
 
 
-      <p className="mt-1 max-w-xl font-body text-sm text-sienna">
+      <p className="mt-1 max-w-xl text-sm text-slate-600">
 
         Each scene has been translated into a visual panel
         using its storyboard prompt, setting and characters.
@@ -412,7 +412,7 @@ export default function PanelGenStep({
 
             <div
               key={scene.id}
-              className="overflow-hidden rounded-lg border border-panelLine bg-ink"
+              className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-soft"
             >
 
 
@@ -571,7 +571,7 @@ export default function PanelGenStep({
 
                 <span
                   key={name}
-                  className="flex items-center gap-1.5 rounded-full border border-panelLine px-2.5 py-1 font-mono text-[11px] text-sienna"
+                  className="flex items-center gap-1.5 rounded-full border border-slate-200 px-2.5 py-1 font-mono text-[11px] text-slate-600"
                 >
 
 
@@ -704,7 +704,7 @@ export default function PanelGenStep({
           VERIFY
       ======================================================== */}
 
-      <div className="mt-7 border-t border-panelLine pt-6">
+      <div className="mt-7 border-t border-slate-200 pt-6">
 
 
         <button
@@ -716,7 +716,7 @@ export default function PanelGenStep({
                 panel?.image_url
             ).length === 0
           }
-          className="rounded-md bg-amber px-5 py-2.5 font-body text-sm font-semibold text-ink transition hover:bg-amber/90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-md bg-[#2B7A4B] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#2B7A4B]/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
 
           Run verification →

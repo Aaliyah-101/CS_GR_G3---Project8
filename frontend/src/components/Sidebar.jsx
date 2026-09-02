@@ -28,7 +28,7 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 z-40 bg-[#071A1D]/75 backdrop-blur-md transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 bg-slate-900/20 backdrop-blur-sm transition-opacity duration-300 ${
           open
             ? 'opacity-100'
             : 'pointer-events-none opacity-0'
@@ -38,12 +38,12 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 z-50 h-full w-72 transform
-        border-r border-[#164E4A]/50
-        bg-[#071A1D]/95
+        className={`fixed left-0 top-0 z-50 flex h-full w-72 transform
+        flex-col justify-between
+        border-r border-slate-200
+        bg-white/95
         backdrop-blur-xl
         transition-transform duration-300 ease-out
-        flex flex-col justify-between
         ${
           open
             ? 'translate-x-0'
@@ -58,25 +58,23 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
         <div>
 
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-[#164E4A]/50 px-6 h-20">
+          <div className="flex h-20 items-center justify-between border-b border-slate-200 px-6">
 
             <div className="flex items-center gap-3">
 
-              {/* VisUg logo */}
-              <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#2DD4BF] to-[#0F766E] shadow-[0_0_18px_rgba(45,212,191,0.2)]">
-                <span className="font-black text-[#071A1D] text-sm">
-                  PV
-                </span>
+              {/* Pearl Visual logo */}
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#F5C400] via-[#FCDC4D] to-[#2B7A4B] font-black text-slate-950 shadow-glow">
+                PV
               </div>
 
               {/* Brand name */}
               <div className="flex flex-col">
 
-                <span className="text-sm font-bold tracking-tight text-[#F0FDFA] leading-tight">
+                <span className="text-sm font-extrabold tracking-tight text-slate-900">
                   Pearl Visual
                 </span>
 
-                <span className="text-[8px] uppercase tracking-[0.15em] text-[#94A3B8] leading-none mt-1">
+                <span className="mt-1 text-[8px] uppercase tracking-[0.18em] text-slate-500">
                   Health Storytelling
                 </span>
 
@@ -89,10 +87,10 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
             <button
               onClick={onClose}
               aria-label="Close menu"
-              className="rounded-md p-1.5 text-[#94A3B8]
-              hover:text-[#5EEAD4]
-              hover:bg-[#0D2929]
-              transition-all"
+              className="rounded-md p-1.5 text-slate-500
+              transition
+              hover:bg-slate-100
+              hover:text-[#2B7A4B]"
             >
 
               <svg
@@ -128,10 +126,8 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
                 onClick={(e) => {
                   e.preventDefault()
 
-                  if (onNavigate) {
-                    onNavigate(l.href)
-                  }
-
+                  if (onNavigate)
+                  onNavigate(l.href)
                   onClose()
                 }}
 
@@ -140,19 +136,17 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
                   flex
                   items-center
                   gap-3.5
-                  rounded-lg
+                  rounded-xl
                   px-3.5
                   py-3
-                  text-xs
-                  font-semibold
+                  text-[11px]
+                  font-extrabold
                   uppercase
-                  tracking-wider
-                  text-[#94A3B8]
-
-                  hover:bg-[#0D2929]
-                  hover:text-[#5EEAD4]
-
-                  transition-all
+                  tracking-[0.22em]
+                  text-slate-600
+                  transition
+                  hover:bg-[#FFF8D6]
+                  hover:text-[#2B7A4B]
                 "
               >
 
@@ -170,39 +164,38 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
         {/* Footer */}
         <div
           className="
-            border-t
-            border-[#164E4A]/50
-            px-6
-            py-5
-            bg-black/10
             flex
             items-center
             gap-3
+            border-t
+            border-slate-200
+            bg-slate-50
+            px-6
+            py-5
           "
         >
 
           {/* Status indicator */}
           <span
-            className={`
-              h-2
-              w-2
+          className={`
+              h-2.5 w-2.5
               rounded-full
 
               ${
                 userName
-                  ? 'bg-[#2DD4BF] animate-pulse'
-                  : 'bg-[#64748B]/40'
+                ? 'animate-pulse bg-[#2B7A4B]'
+                : 'bg-slate-400'
               }
             `}
           />
 
 
-          <div className="text-[10px] tracking-wider uppercase text-[#94A3B8]">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-slate-600">
 
             {userName ? (
 
               <span>
-                <span className="text-[#F0FDFA] font-bold">
+                <span className="font-extrabold text-slate-900">
                   {userName}
                 </span>
               </span>
@@ -212,11 +205,10 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
               <button
                 type="button"
                 className="
-                  text-[#94A3B8]
-                  hover:text-[#5EEAD4]
-                  transition-colors
-                  font-bold
-                  uppercase
+                  font-extrabold
+                  text-slate-600
+                  transition
+                  hover:text-[#2B7A4B]
                 "
               >
                 Sign In to Platform →

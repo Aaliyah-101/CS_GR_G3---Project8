@@ -177,9 +177,8 @@ export default function PublishStep({
 
   if (published) {
     return (
-      <div className="rounded-lg border border-amber/40 bg-panel p-8 text-center">
-
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border-2 border-amber text-amber">
+      <div className="rounded-lg border border-[#2B7A4B]/40 bg-white p-8 text-center shadow-soft">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#2B7A4B] text-[#2B7A4B]">
           <IconCheck size={22} />
         </div>
 
@@ -222,15 +221,15 @@ export default function PublishStep({
   // ============================================================
 
   return (
-    <div className="rounded-lg border border-panelLine bg-panel p-6">
+    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
 
       {/* HEADER */}
 
-      <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">
+      <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">
         Stage 8 · Language Layer + Publish
       </p>
 
-      <h2 className="mt-2 font-display text-xl font-semibold">
+      <h2 className="mt-2 text-xl font-semibold text-slate-900">
         Final review
       </h2>
 
@@ -242,47 +241,47 @@ export default function PublishStep({
           STORY SUMMARY
       ====================================================== */}
 
-      <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 rounded-md border border-panelLine bg-ink p-4 font-mono text-xs">
+      <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 rounded-md border border-slate-200 bg-slate-50 p-4 font-mono text-xs">
 
-        <dt className="text-sienna">
+        <dt className="text-slate-600">
           Title
         </dt>
 
-        <dd className="text-parchment">
+        <dd className="text-slate-900">
           {data.title || 'Untitled'}
         </dd>
 
-        <dt className="text-sienna">
+        <dt className="text-slate-600">
           Category · Tone
         </dt>
 
-        <dd className="text-parchment">
+        <dd className="text-slate-900">
           {data.category} · {data.tone}
         </dd>
 
-        <dt className="text-sienna">
+        <dt className="text-slate-600">
           Audience
         </dt>
 
-        <dd className="text-parchment">
+        <dd className="text-slate-900">
           {audience?.label ||
             data.audienceId ||
             'General'}
         </dd>
 
-        <dt className="text-sienna">
+        <dt className="text-slate-600">
           Facts grounded
         </dt>
 
-        <dd className="text-parchment">
+        <dd className="text-slate-900">
           {included}
         </dd>
 
-        <dt className="text-sienna">
+        <dt className="text-slate-600">
           Scenes
         </dt>
 
-        <dd className="text-parchment">
+        <dd className="text-slate-900">
           {data.scenes.length}
         </dd>
 
@@ -302,10 +301,10 @@ export default function PublishStep({
 
             <IconLanguages
               size={14}
-              className="text-amber"
+              className="text-[#2B7A4B]"
             />
 
-            <label className="font-mono text-[10px] uppercase tracking-widest text-sienna">
+            <label className="font-mono text-[10px] uppercase tracking-widest text-slate-600">
               Narration language
             </label>
 
@@ -323,10 +322,10 @@ export default function PublishStep({
                     language: lang,
                   })
                 }
-                className={`rounded-full border px-3 py-1.5 font-body text-xs font-medium transition ${
+                className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                   data.language === lang
-                    ? 'border-amber bg-amber text-ink'
-                    : 'border-panelLine text-sienna hover:border-amber/40'
+                    ? 'border-[#2B7A4B] bg-[#2B7A4B] text-white'
+                    : 'border-slate-200 text-slate-600 hover:border-[#2B7A4B]/40'
                 }`}
               >
                 {lang}
@@ -346,16 +345,16 @@ export default function PublishStep({
 
             <IconVolume
               size={14}
-              className="text-amber"
+              className="text-[#2B7A4B]"
             />
 
-            <label className="font-mono text-[10px] uppercase tracking-widest text-sienna">
+            <label className="font-mono text-[10px] uppercase tracking-widest text-slate-600">
               Audio narration
             </label>
 
           </div>
 
-          <label className="mt-2 flex items-center gap-2 font-body text-xs text-sienna">
+          <label className="mt-2 flex items-center gap-2 text-xs text-slate-600">
 
             <input
               type="checkbox"
@@ -366,7 +365,7 @@ export default function PublishStep({
                     e.target.checked,
                 })
               }
-              className="accent-amber"
+              className="accent-[#2B7A4B]"
             />
 
             Generate a voiceover per panel in{' '}
@@ -407,13 +406,12 @@ export default function PublishStep({
           PUBLISH BUTTON
       ====================================================== */}
 
-      <div className="mt-7 border-t border-panelLine pt-6">
-
+      <div className="mt-7 border-t border-slate-200 pt-6">
         <button
           type="button"
           onClick={handleSubmit}
           disabled={submitting}
-          className="flex items-center gap-2 rounded-md bg-amber px-6 py-3 font-body text-sm font-semibold text-ink transition hover:bg-amber/90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex items-center gap-2 rounded-md bg-[#2B7A4B] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#2B7A4B]/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
 
           <IconRocket size={15} />

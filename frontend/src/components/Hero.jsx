@@ -7,74 +7,46 @@ export default function Hero({ onCreateClick }) {
   return (
     <section
       className="
-        bg-[whitesmoke]
         relative
         overflow-hidden
-        text-[#F0FDFA]
         pb-28
+        pt-16
         md:pb-36
-        w-full
+        md:pt-20
       "
     >
 
       {/* Soft health-themed glow */}
       <div
-        className="
-          pointer-events-none
-          absolute
-          -top-40
-          right-0
-          -z-10
-          h-96
-          w-96
-          rounded-full
-          bg-[#2DD4BF]/10
-          blur-[100px]
-        "
-      />
-
-
-      <div
-        className="
-          mx-auto
-          w-full
-          max-w-[1400px]
-          px-6
-          pt-16
-          md:pt-24
-          grid
-          grid-cols-1
-          md:grid-cols-12
-          gap-6
-          items-center
+       className="
+         mx-auto grid
+         max-w-[1400px]
+         items-center
+         gap-10
+         px-6
+         md:grid-cols-12
         "
       >
 
         {/* LEFT SIDE */}
-        <div className="md:col-span-4">
+        <div className="md:col-span-5">
 
           <p
             className="
-              text-xs
-              uppercase
-              tracking-[0.9em]
-              text-[black]
-              font-bold
+            eyebrow
+            mb-5
+            text-[#2B7A4B]
             "
           >
-            LVM-Powered Visual Storytelling 
+          LVM-Powered Visual Storytelling
           </p>
 
 
-              <h1 className="mt-6 text-5xl md:text-[60px] font-black leading-[0.9] tracking-tighter text-[black]">
-      Turning {' '}
-
-      <span className="text-[#2DD4BF] text-7xl">Public Health </span>{' '}
-
-      Information into{' '}
-
-      <span className="text-[#2DD4BF] text-7xl">Visual Stories.</span>
-
+          <h1 className="section-heading text-slate-900">
+            Turning <span className="gradient-text">
+            Public Health</span> information into <span className="gradient-text">
+            visual stories.
+            </span>
        </h1>
 
 
@@ -85,12 +57,12 @@ export default function Hero({ onCreateClick }) {
               max-w-xl
               text-base
               leading-relaxed
-              text-[#94A3B8]
+              text-slate-600
             "
           >
             Transforming Complex Health Information Into
             Visual Stories People Can Understand,
-            Remember, and Share.
+            Remember and Share.
           </p>
 
 
@@ -101,18 +73,17 @@ export default function Hero({ onCreateClick }) {
               type="button"
               onClick={onCreateClick}
               className="
-                rounded-lg
-                bg-[#2DD4BF]
+                rounded-xl
+                bg-gradient-to-r from-[#F5C400] to-[#2B7A4B]
                 px-6
                 py-3
                 text-sm
-                font-bold
-                text-[#071A1D]
-                shadow-[0_0_25px_rgba(45,212,191,0.15)]
-                hover:bg-[orange]
-                hover:border-[#2DD4BF]
+                font-extrabold
+                uppercase tracking-[0.18em]
+                text-slate-950
+                shadow-glow transition
                 hover:-translate-y-0.5
-                transition-all
+                hover:shadow-soft
               "
             >
               Create a Story
@@ -122,18 +93,20 @@ export default function Hero({ onCreateClick }) {
             <a
               href="#stories"
               className="
-                rounded-lg
+                rounded-xl
                 border
-                border-[orange]
+                border-slate-200
+                bg-white
                 px-6
                 py-3
                 text-sm
-                font-bold
-                text-[black]
-                bg-[orange]
-                hover:bg-[#2DD4BF]
-                hover:border-[#2DD4BF]
-                transition-all
+                font-extrabold
+                uppercase
+                tracking-[0.18em]
+                text-slate-700
+                transition
+                hover:border-[#F5C400]
+                hover:text-[#2B7A4B]
               "
             >
               Explore Stories
@@ -145,45 +118,54 @@ export default function Hero({ onCreateClick }) {
 
 
         {/* RIGHT SIDE */}
-        <div className="relative w-full md:col-span-8">
+        <div className="relative w-full md:col-span-7">
 
           <div
-            className="
-              flex
-              items-center
-              justify-between
-              gap-2
-              md:gap-3
-              py-12
-              w-full
-            "
-          >
+             className="
+               glass-panel
+               relative
+               overflow-hidden
+               rounded-[28px]
+               border
+               border-slate-200
+               p-5
+              "
+             >
 
-            {/* IMAGE 1 */}
+
             <div
               className="
-                w-[25%]
-                flex-shrink-0
-                shadow-[0_20px_50px_rgba(0,0,0,0.4)]
-                transform
-                -rotate-1
-                hover:rotate-0
-                transition-transform
-                duration-300
+                grid
+                gap-5
+                md:grid-cols-[0.9fr_0.2fr_1.15fr_0.2fr_1.15fr]
+                md:items-center
               "
             >
+
+              {/* IMAGE 1 */}
+              <div
+                className="
+                  -rotate-2
+                  overflow-hidden
+                  rounded-2xl
+                  border
+                  border-[#F5C400]/40
+                  bg-slate-100
+                  shadow-soft
+                  transition
+                  hover:rotate-0
+                "
+              >
+
 
               <img
                 src={script}
                 alt="Health information"
                 className="
-                  w-full
                   h-[300px]
-                  md:h-[340px]
+                  w-full
                   object-cover
-                  rounded-xl
-                  border-2
-                  border-[#164E4A]
+                  md:h-[360px]
                 "
               />
 
@@ -193,104 +175,46 @@ export default function Hero({ onCreateClick }) {
             {/* ARROW 1 */}
             <div
               className="
-                w-[4%]
-                flex-shrink-0
-                flex
+                hidden
+                items-center
                 justify-center
+                md:flex
               "
             >
-
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                className="text-[#2DD4BF]"
-              >
-
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="text-[#2B7A4B]">
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
-
               </svg>
-
             </div>
 
 
-            {/* IMAGE 2 */}
-            <div
-              className="
-                w-[28%]
-                flex-shrink-0
-                shadow-[0_20px_50px_rgba(0,0,0,0.4)]
-                transform
-                rotate-1
-                hover:rotate-0
-                transition-transform
-                duration-300
-              "
-            >
-
-              <img
-                src={netcover}
-                alt="Health visual story"
-                className="
-                  w-full
-                  h-[300px]
-                  md:h-[340px]
-                  object-cover
-                  rounded-xl
-                  border-2
-                  border-[#2DD4BF]
-                "
-              />
-
-            </div>
+              {/* IMAGE 2 */}
+              <div className="rotate-1 overflow-hidden rounded-2xl border border-[#2B7A4B]/30 bg-slate-100 shadow-soft transition hover:rotate-0">
+                <img src={netcover} alt="Health visual story" className="h-[300px] w-full object-cover md:h-[360px]" />
+              </div>
 
 
-            {/* ARROW 2 */}
-            <div
-              className="
-                w-[4%]
-                flex-shrink-0
-                flex
-                justify-center
-              "
-            >
-
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                className="
-                  text-[#5EEAD4]
-                  animate-pulse
-                "
-              >
-
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-
-              </svg>
-
-            </div>
+              {/* ARROW 2 */}
+              <div className="hidden items-center justify-center md:flex">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="text-[#D62828] animate-pulse">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </div>
 
 
             {/* IMAGE 3 */}
             <div
               className="
-                w-[28%]
-                flex-shrink-0
-                shadow-[0_20px_50px_rgba(0,0,0,0.4)]
-                transform
                 rotate-2
+                overflow-hidden
+                rounded-2xl
+                border
+                border-[#F5C400]/40
+                bg-slate-100
+                shadow-soft
+                transition
                 hover:rotate-0
-                transition-transform
-                duration-300
               "
             >
 
@@ -298,16 +222,14 @@ export default function Hero({ onCreateClick }) {
                 src={net}
                 alt="Health storytelling"
                 className="
-                  w-full
                   h-[300px]
-                  md:h-[340px]
+                  w-full
                   object-cover
-                  rounded-xl
-                  border-2
-                  border-[#0F766E]
+                  md:h-[360px]
                 "
               />
 
+              </div>
             </div>
 
           </div>
@@ -331,14 +253,14 @@ export default function Hero({ onCreateClick }) {
       >
 
         <svg
-          className="relative block w-full h-12 md:h-20"
+          className="relative block h-12 w-full md:h-20"
           viewBox="0 0 1200 120"
           preserveAspectRatio="none"
         >
 
           <path
             d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C26.9,4.75,55.05,10.3,81.39,15.22,154,28.87,227.18,39,321.39,56.44Z"
-            fill="#071A1D"
+            fill="#f3f3ef"
           />
 
         </svg>
