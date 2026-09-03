@@ -407,13 +407,13 @@ export default function Gallery() {
 
       <div className="mb-6 flex flex-wrap flex-wrap gap-2">
 
-        {FILTERS.map((filterItem) => (
+      {FILTERS.map((filterItem) => (
 
           <button
-            key={f.value}
-            onClick={() => setFilter(f.value)}
+            key={filterItem.value}
+            onClick={() => setFilter(filterItem.value)}
             className={`rounded-full px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.22em] transition ${
-              filter === f.value
+              filter === filterItem.value
                 ? 'bg-gradient-to-r from-[#F5C400] to-[#2B7A4B] text-slate-950 shadow-glow'
                 : 'border border-slate-200 bg-white text-slate-600 hover:border-[#F5C400] hover:text-[#2B7A4B]'
             }`}
@@ -423,7 +423,7 @@ export default function Gallery() {
 
           </button>
 
-        ))}
+          ))}
 
       </div>
 
@@ -514,40 +514,36 @@ export default function Gallery() {
         </div>
       )}
 
-      {/* Lightbox */}
-      {selected && (
-        <div
-          onClick={() => setSelected(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 p-6 backdrop-blur-sm"
-        >
-
-          <div
-           onClick={(event) =>
-              event.stopPropagation()
-            }
-
-           className="max-w-lg overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft"
-          >
-
-            <img
-              src={selected.src}
-              alt={selected.caption}
-              className="w-full"
+      {/* Lightbox / Story Viewer */}
+        {selected && (
+          selected.storyData ? (
+            <StoryViewer
+              story={selected.storyData}
+              onClose={closeViewer}
             />
-
-            <div className="p-4">
-
-              <p className="font-body text-sm text-parchment">
-                {selected.caption}
-              </p>
-
+          ) : (
+            <div
+              onClick={() => setSelected(null)}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 p-6 backdrop-blur-sm"
+            >
+              <div
+                onClick={(event) => event.stopPropagation()}
+                className="max-w-lg overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft"
+              >
+                <img
+                  src={selected.src}
+                  alt={selected.caption}
+                  className="w-full"
+                />
+                <div className="p-4">
+                  <p className="font-body text-sm text-parchment">
+                    {selected.caption}
+                  </p>
+                </div>
+              </div>
             </div>
-
-          </div>
-
-        </div>
-
-      )}
+          )
+        )}
 
     </section>
 

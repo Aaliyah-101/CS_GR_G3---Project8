@@ -196,7 +196,7 @@ export default function Sidebar({ open, onClose, userName, onNavigate }) {
 
               <span>
                 <span className="font-extrabold text-slate-900">
-                  {userName}
+                  
                 </span>
               </span>
 

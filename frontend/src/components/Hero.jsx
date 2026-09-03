@@ -44,8 +44,8 @@ export default function Hero({ onCreateClick }) {
 
           <h1 className="section-heading text-slate-900">
             Turning <span className="gradient-text">
-            Public Health</span> information into <span className="gradient-text">
-            visual stories.
+            Public Health</span>  information into <span className="gradient-text">
+            Visual Stories.
             </span>
        </h1>
 
@@ -149,15 +149,13 @@ export default function Hero({ onCreateClick }) {
                   overflow-hidden
                   rounded-2xl
                   border
-                  border-[#F5C400]/40
+                  border-[#F5C400]/45
                   bg-slate-100
                   shadow-soft
                   transition
                   hover:rotate-0
                 "
               >
-
-
               <img
                 src={script}
                 alt="Health information"
@@ -170,7 +168,6 @@ export default function Hero({ onCreateClick }) {
               />
 
             </div>
-
 
             {/* ARROW 1 */}
             <div
