@@ -2,6 +2,20 @@ import json
 
 from app.services.qwen_service import generate_text
 
+import re
+
+def safe_json_loads(text):
+    """Parse JSON, with a repair fallback for common LLM errors like unescaped quotes."""
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        # Try to fix unescaped quotes inside strings
+        repaired = re.sub(r'(?<!\\)"(?=[^:,\[\]{}\n]*")', '\\\\"', text)
+        try:
+            return json.loads(repaired)
+        except json.JSONDecodeError:
+            pass
+        raise
 
 def generate_visualug_story(
     title: str,
@@ -110,7 +124,7 @@ Use exactly this structure:
     response = response.strip()
 
     try:
-        story = json.loads(response)
+        story = safe_json_loads(response)
     except json.JSONDecodeError as e:
         raise RuntimeError(
             f"Qwen returned invalid JSON: {e}\n\n"

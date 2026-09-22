@@ -1,23 +1,27 @@
+"""
+Image service for VisualUG.
+
+Generates panel images from text prompts using Pollinations AI
+(free, no API key required).
+
+Same interface as before: generate_panel_image(prompt, filename)
+returns a Path to the saved image.
+"""
+
 import os
 from pathlib import Path
 
-from huggingface_hub import InferenceClient
+import requests
 
 
 # ============================================================
 # CONFIGURATION
 # ============================================================
 
-MODEL_NAME = "Qwen/Qwen-Image"
-PROVIDER = "wavespeed"
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 IMAGE_DIR = BASE_DIR / "generated_images"
 
-IMAGE_DIR.mkdir(
-    parents=True,
-    exist_ok=True
-)
+IMAGE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ============================================================
@@ -25,60 +29,48 @@ IMAGE_DIR.mkdir(
 # ============================================================
 
 def is_configured() -> bool:
-
-    return bool(
-        os.getenv("HF_TOKEN")
-    )
+    # Pollinations AI is free and requires no API key
+    return True
 
 
 # ============================================================
 # IMAGE GENERATION
 # ============================================================
 
-def generate_panel_image(
-    prompt: str,
-    filename: str
-):
-
-    token = os.getenv("HF_TOKEN")
-
-    if not token:
-        raise RuntimeError(
-            "HF_TOKEN is not configured."
-        )
-
+def generate_panel_image(prompt: str, filename: str) -> Path:
+    """
+    Generate an image from a text prompt using Pollinations AI.
+    Saves the image to IMAGE_DIR/filename and returns the path.
+    """
 
     print("\n========================================")
     print("IMAGE GENERATION REQUEST")
     print("========================================")
-    print(f"Model: {MODEL_NAME}")
-    print(f"Provider: {PROVIDER}")
+    print(f"Provider: Pollinations AI")
     print(f"Prompt: {prompt}")
     print("========================================\n")
 
+    # Pollinations expects the prompt URL-encoded in the path
+    encoded_prompt = requests.utils.quote(prompt, safe="")
 
-    client = InferenceClient(
-        provider=PROVIDER,
-        api_key=token,
+    # Optional: add style + dimensions
+    url = (
+        f"https://image.pollinations.ai/prompt/{encoded_prompt}"
+        f"?width=1024&height=1024&nologo=true"
     )
 
-
-    image = client.text_to_image(
-        prompt=prompt,
-        model=MODEL_NAME,
-    )
-
+    response = requests.get(url, timeout=120)
+    response.raise_for_status()
 
     output_path = IMAGE_DIR / filename
-
-    image.save(output_path)
-
+    with open(output_path, "wb") as f:
+        f.write(response.content)
 
     print("\n========================================")
     print("IMAGE GENERATED")
     print("========================================")
     print(f"Saved to: {output_path}")
+    print(f"Size: {len(response.content)} bytes")
     print("========================================\n")
-
 
     return output_path
