@@ -3,7 +3,7 @@ import PanelArt from './PanelArt.jsx'
 import VerificationStamp from './VerificationStamp.jsx'
 import { verifyPanel, colorForCharacter } from './storyEngine.js'
 import { IconShield } from './Icons.jsx'
-
+import { API_BASE_URL } from '../../apis/api'
 
 function parseCharacters(value) {
   if (Array.isArray(value)) {
@@ -142,14 +142,16 @@ export default function VerifyStep({
 
                 <div className="h-20 w-28 shrink-0 overflow-hidden rounded-md border border-slate-200">
 
-                  {panel.image_url ? (
-
+                {panel.image_url ? (
                     <img
-                      src={panel.image_url}
+                      src={
+                        panel.image_url.startsWith('http')
+                          ? panel.image_url  
+                          : `${API_BASE_URL}${panel.image_url}`  // relative path → prepend backend
+                      }
                       alt={panel.caption}
                       className="h-full w-full object-cover"
                     />
-
                   ) : (
 
                     <PanelArt
