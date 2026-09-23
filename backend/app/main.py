@@ -46,6 +46,9 @@ app.add_middleware(
         "http://127.0.0.1:5173",
         "http://localhost:5174",
         "http://127.0.0.1:5174",
+        "https://qwen-ugandan-health-c05a6f56.ahumain.cranecloud.io/",
+        "https://cs-gr-g3-project8-vz1z-jdj0cgncl-group-3-42ab.vercel.app",
+        "https://visualug-api-e30ed192.ahumain.cranecloud.io"
     ],
     allow_credentials=True,
     allow_methods=["*"],
