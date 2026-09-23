@@ -4,6 +4,7 @@ import VerificationStamp from './VerificationStamp.jsx'
 import { verifyPanel, colorForCharacter } from './storyEngine.js'
 import { IconShield } from './Icons.jsx'
 import { API_BASE_URL } from '../../apis/api'
+import { resolveImageUrl } from '../../apis/api'
 
 function parseCharacters(value) {
   if (Array.isArray(value)) {
@@ -144,11 +145,7 @@ export default function VerifyStep({
 
                 {panel.image_url ? (
                     <img
-                      src={
-                        panel.image_url.startsWith('http')
-                          ? panel.image_url  
-                          : `${API_BASE_URL}${panel.image_url}`  // relative path → prepend backend
-                      }
+                    src={resolveImageUrl(panel.image_url)}
                       alt={panel.caption}
                       className="h-full w-full object-cover"
                     />

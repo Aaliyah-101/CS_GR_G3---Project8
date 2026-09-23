@@ -1,3 +1,4 @@
+import { resolveImageUrl } from '../../apis/api'
 function Person({ x, y, color, scale = 1, wrap = false }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${scale})`}>
@@ -93,10 +94,9 @@ export default function PanelArt({
    */
 
   if (imageUrl) {
-
     return (
       <img
-        src={imageUrl}
+        src={resolveImageUrl(imageUrl)}
         alt="Generated story panel"
         className="h-full w-full object-cover"
       />

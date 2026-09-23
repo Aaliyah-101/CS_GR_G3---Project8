@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import api from '../apis/api'
-
+import { API_BASE_URL, resolveImageUrl } from '../apis/api'
 import ebola from '../images/ebola.png'
 import netcover from '../images/netcover.png'
 import maternal from '../images/maternal.png'
@@ -149,7 +149,7 @@ export default function Gallery() {
               id: `story-${story.id}`,
 
               src:
-                firstScene?.imageUrl ||
+              resolveImageUrl(firstScene?.imageUrl) ||
                 null,
 
               source: 'ai',
@@ -843,10 +843,9 @@ function StoryViewer({
 
             <div className="w-full max-w-3xl overflow-hidden rounded-lg border border-[#164E4A]">
 
-              {scene.imageUrl ? (
-
-                <img
-                  src={scene.imageUrl}
+            {scene.imageUrl ? (
+                  <img
+                    src={resolveImageUrl(scene.imageUrl)}
                   alt={scene.caption}
                   className="max-h-[60vh] w-full object-contain"
                 />
