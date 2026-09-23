@@ -50,6 +50,7 @@ app.add_middleware(
         "https://cs-gr-g3-project8-vz1z-jdj0cgncl-group-3-42ab.vercel.app",
         "https://visualug-api-e30ed192.ahumain.cranecloud.io"
     ],
+    allow_origin_regex=r"https://.*\.vercel\.app"
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
