@@ -34,6 +34,8 @@ def generate_panel(request: PanelRequest):
 
     """
     Generate an actual visual panel from the scene image prompt.
+    The image is uploaded to Cloudinary (if configured) and the
+    returned URL is used directly.
     """
 
     # --------------------------------------------------------
@@ -79,7 +81,7 @@ the scene.
 
 
     # --------------------------------------------------------
-    # Generate filename
+    # Generate filename (used as Cloudinary public_id)
     # --------------------------------------------------------
 
     filename = (
@@ -88,10 +90,10 @@ the scene.
 
 
     # --------------------------------------------------------
-    # Generate image
+    # Generate image (uploads to Cloudinary, returns URL)
     # --------------------------------------------------------
 
-    image_path = generate_panel_image(
+    image_url = generate_panel_image(
         prompt=final_prompt,
         filename=filename
     )
@@ -117,9 +119,7 @@ the scene.
 
             "art_key": request.art_key,
 
-            "image_url": (
-                f"/generated-images/{filename}"
-            ),
+            "image_url": image_url,
 
             "status": "generated"
 
