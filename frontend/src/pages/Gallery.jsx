@@ -73,7 +73,7 @@ function pickSupportedMime() {
 
 /**
  * Load an image safely by first fetching it as a Blob.
- * Avoids CORS/canvas-taint issues entirely.
+ * Avoids CORS / canvas-taint issues entirely.
  */
 async function loadImage(src) {
   const response = await fetch(src, { mode: 'cors' })
@@ -323,7 +323,7 @@ export default function Gallery() {
   const [storyError, setStoryError] = useState(null)
   const fileInputRef = useRef(null)
 
-  // ✅ CHANGE 1 — refresh key triggers refetches
+  // refreshKey triggers refetches (on focus, visibility change, manual click)
   const [refreshKey, setRefreshKey] = useState(0)
 
   // ---- Load published stories (re-runs whenever refreshKey changes) ----
@@ -336,9 +336,7 @@ export default function Gallery() {
         setStoryError(null)
 
         // cache-bust so Render/CDN never serves stale data
-        const response = await api.get(
-          `/api/story/stories?t=${Date.now()}`
-        )
+        const response = await api.get(`/api/story/stories?t=${Date.now()}`)
         const stories = response.data?.stories || []
 
         console.log('Published stories received:', stories)
@@ -372,9 +370,9 @@ export default function Gallery() {
     return () => {
       cancelled = true
     }
-  }, [refreshKey]) // ✅ CHANGE 2 — depend on refreshKey
+  }, [refreshKey])
 
-  // ✅ CHANGE 3a — refetch when tab regains focus / visibility
+  // Refetch when tab regains focus / visibility
   useEffect(() => {
     function onFocus() {
       setRefreshKey((k) => k + 1)
@@ -509,7 +507,6 @@ export default function Gallery() {
           </button>
         ))}
 
-        {/* ✅ CHANGE 3b — manual refresh button */}
         <button
           type="button"
           onClick={() => setRefreshKey((k) => k + 1)}
@@ -530,38 +527,58 @@ export default function Gallery() {
             <button
               key={item.id}
               onClick={() => setSelected(item)}
-              className="group relative aspect-square overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft"
+              className="group relative flex aspect-square flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft transition-shadow hover:shadow-lg"
             >
-              {item.src ? (
-                <img
-                  src={item.src}
-                  alt={item.caption}
-                  className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                />
-              ) : item.storyData ? (
-                <div className="flex h-full w-full flex-col items-center justify-center bg-[#0D2929] px-5 text-center">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#2DD4BF]/40 text-xl text-[#2DD4BF]">
-                    ▶
+              <div className="relative flex-1 overflow-hidden bg-slate-900">
+                {item.src ? (
+                  <img
+                    src={item.src}
+                    alt={item.caption}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                  />
+                ) : item.storyData ? (
+                  <div className="flex h-full w-full flex-col items-center justify-center bg-[#0D2929] px-5 text-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#2DD4BF]/40 text-xl text-[#2DD4BF]">
+                      ▶
+                    </div>
+                    <p className="mt-3 font-mono text-[9px] uppercase tracking-wide text-[#94A3B8]">
+                      {item.storyData.scenes?.length || 0} panels
+                    </p>
                   </div>
-                  <p className="mt-4 font-display text-sm font-semibold text-[#F0FDFA]">
+                ) : null}
+
+                {/* STRONG FOREGROUND GRADIENT */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+
+                {/* EXTRA HOVER DARKENING */}
+                <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
+
+                {/* SOURCE BADGE */}
+                <span
+                  className={`absolute left-2 top-2 rounded-full px-2 py-1 text-[10px] font-extrabold uppercase tracking-[0.2em] shadow-md backdrop-blur-sm ${
+                    item.source === 'ai'
+                      ? 'bg-[#2B7A4B]/95 text-white'
+                      : 'bg-[#F5C400]/95 text-slate-950'
+                  }`}
+                >
+                  {item.source === 'ai' ? 'AI' : 'Community'}
+                </span>
+
+                {/* TITLE OVERLAY (bottom of the image) */}
+                <div className="absolute inset-x-0 bottom-0 px-3 pb-3 pt-6">
+                  <p
+                    className="overflow-hidden font-display text-[13px] font-semibold uppercase tracking-wide leading-tight text-white drop-shadow-md"
+                    style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                    }}
+                    title={item.caption}
+                  >
                     {item.caption}
                   </p>
-                  <p className="mt-1 font-mono text-[9px] uppercase tracking-wide text-[#94A3B8]">
-                    {item.storyData.scenes?.length || 0} panels · Click to watch
-                  </p>
                 </div>
-              ) : null}
-
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/25 via-transparent to-transparent" />
-              <span
-                className={`absolute left-2 top-2 rounded-full px-2 py-1 text-[10px] font-extrabold uppercase tracking-[0.2em] ${
-                  item.source === 'ai'
-                    ? 'bg-[#2B7A4B] text-white'
-                    : 'bg-[#F5C400] text-slate-950'
-                }`}
-              >
-                {item.source === 'ai' ? 'AI' : 'Community'}
-              </span>
+              </div>
             </button>
           ))}
         </div>

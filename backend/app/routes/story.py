@@ -293,3 +293,32 @@ def get_story(
             for scene in story.scenes
         ],
     }
+    # ============================================================
+# DELETE A PUBLISHED STORY
+# ============================================================
+
+@router.delete("/stories/{story_id}")
+def delete_story(
+    story_id: int,
+    db: Session = Depends(get_db),
+):
+
+    story = (
+        db.query(Story)
+        .filter(Story.id == story_id)
+        .first()
+    )
+
+    if not story:
+        raise HTTPException(
+            status_code=404,
+            detail="Story not found."
+        )
+
+    db.delete(story)
+    db.commit()
+
+    return {
+        "message": f"Story {story_id} deleted successfully.",
+        "deleted_id": story_id,
+    }
