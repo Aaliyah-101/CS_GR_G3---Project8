@@ -6,6 +6,10 @@ and returns a JSON storyboard.
 
 The response is adapted to the same shape the frontend already
 expects (title, narrative, facts, scenes with imagePrompt).
+
+Also injects a "text-free contract" into every image prompt so
+the downstream FLUX image model does not draw speech bubbles,
+captions, or any lettering.
 """
 
 import os
@@ -24,6 +28,15 @@ SCENE_PLANNER_URL = os.getenv(
 )
 
 SCENE_PLANNER_API_KEY = os.getenv("SCENE_PLANNER_API_KEY")
+
+# Appended to every image prompt before it is sent to the FLUX API.
+# FLUX ignores negative-prompt parameters, so we state this in the
+# positive prompt itself.
+TEXT_FREE_CONTRACT = (
+    " No text, no speech bubbles, no thought bubbles, no captions, "
+    "no lettering, no words, no signs, no labels, no logos, "
+    "no watermarks anywhere in the image."
+)
 
 
 # ============================================================
@@ -185,6 +198,8 @@ def storyboard_to_visualug_story(
     """
     Convert a scene planner response into the story shape the
     frontend, DB, and image pipeline already expect.
+
+    Also appends the text-free contract to every image prompt.
     """
 
     storyboard = data.get("storyboard", {}) or {}
@@ -196,13 +211,21 @@ def storyboard_to_visualug_story(
     for i, scene in enumerate(raw_scenes, start=1):
         scene_num = scene.get("scene_number", i)
         caption = scene.get("caption", "")
-        visual_prompt = scene.get("visual_prompt", "")
+        visual_prompt = (scene.get("visual_prompt") or "").strip()
+
+        # --- Append the text-free contract to the FLUX prompt ---
+        if not visual_prompt:
+            safe_prompt = TEXT_FREE_CONTRACT.strip()
+        else:
+            if not visual_prompt.endswith((".", "!", "?")):
+                visual_prompt += "."
+            safe_prompt = visual_prompt + TEXT_FREE_CONTRACT
 
         scenes.append({
             "id": f"scene-{scene_num}",
             "sceneNumber": scene_num,
             "caption": caption,
-            "imagePrompt": visual_prompt,
+            "imagePrompt": safe_prompt,
             "imageUrl": None,
             "artKey": f"scene-{scene_num}",
             "characters": [],
