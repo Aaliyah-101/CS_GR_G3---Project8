@@ -11,7 +11,8 @@ can be stored directly in the database and rendered by any browser.
 
 import os
 from pathlib import Path
-
+from dotenv import load_dotenv
+load_dotenv()
 import requests
 import cloudinary
 import cloudinary.uploader

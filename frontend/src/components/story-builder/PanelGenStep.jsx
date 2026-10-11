@@ -121,6 +121,9 @@ export default function PanelGenStep({
 
             art_key:
               scene.artKey || 'village',
+          },
+          {
+            timeout: 300000,  // 5 min — safety net, not a hard limit
           }
         )
 
@@ -250,11 +253,9 @@ export default function PanelGenStep({
 
 
         <p className="mx-auto mt-2 max-w-md font-body text-sm text-sienna">
-
-          The storyboard is being translated into visual
-          scenes. Each panel is being prepared from its
-          image prompt and character information.
-
+          Generating one panel at a time using the fine-tuned
+          Uganda image model. Each panel takes about 60–120
+          seconds — the list below updates as each one completes.
         </p>
 
 
