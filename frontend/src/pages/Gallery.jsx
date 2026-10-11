@@ -172,8 +172,17 @@ function exportStoryJson(story) {
 // RECORD STORY TO VIDEO
 // ============================================================
 
+// ============================================================
+// RECORD STORY TO VIDEO — cinematic edition
+// ============================================================
+
 async function recordStoryToVideo(story, opts = {}) {
-  const { secondsPerScene = 4, onProgress } = opts
+  const {
+    secondsPerScene = 5,
+    transitionMs = 500,     // fade between scenes
+    onProgress,
+  } = opts
+
   const support = pickSupportedMime()
   if (!support) {
     throw new Error('Video recording is not supported in this browser.')
@@ -192,21 +201,19 @@ async function recordStoryToVideo(story, opts = {}) {
   const stream = canvas.captureStream(30)
   const recorder = new MediaRecorder(stream, {
     mimeType: support.mime,
-    videoBitsPerSecond: 4_000_000,
+    videoBitsPerSecond: 5_000_000,
   })
 
   const chunks = []
   recorder.ondataavailable = (e) => {
     if (e.data && e.data.size > 0) chunks.push(e.data)
   }
-
   const stopped = new Promise((resolve) => {
     recorder.onstop = resolve
   })
-
   recorder.start()
 
-  // Preload images as blobs (no CORS taint)
+  // ---------- Preload images ----------
   const loadedEntries = await Promise.all(
     scenes.map(async (scene) => {
       if (!scene.imageUrl) return null
@@ -220,85 +227,203 @@ async function recordStoryToVideo(story, opts = {}) {
       }
     })
   )
-
   const images = loadedEntries.map((e) => (e ? e.img : null))
   const objectUrls = loadedEntries.filter(Boolean).map((e) => e.objectUrl)
 
+  // ---------- Layout constants ----------
+  const CAPTION_BAR_H = 180
+  const IMAGE_AREA_H = H - CAPTION_BAR_H
+  const IMAGE_PADDING = 32
+  const PANEL_W = W - IMAGE_PADDING * 2
+  const PANEL_H = IMAGE_AREA_H - IMAGE_PADDING * 2
+
   const frameDelay = 1000 / 30
-  const startTime = performance.now()
+
+  // ---------- Helper — draw a single frame for scene i at local time t ----------
+  // t = milliseconds into this scene (0 .. sceneDuration)
+  // prevImg = image of previous scene (for fade-in overlay), may be null
+  function drawFrame(i, t, prevImg) {
+    const scene = scenes[i]
+    const sceneDuration = secondsPerScene * 1000
+    const img = images[i]
+
+    // Fade in from black (or from prev scene)
+    const fadeIn = Math.min(1, t / transitionMs)
+    const fadeOut = Math.min(1, (sceneDuration - t) / transitionMs)
+    const sceneAlpha = Math.min(fadeIn, fadeOut)
+
+    // Background
+    ctx.fillStyle = '#071A1D'
+    ctx.fillRect(0, 0, W, H)
+
+    // ---------- Image area ----------
+    ctx.save()
+    ctx.beginPath()
+    ctx.rect(
+      IMAGE_PADDING,
+      IMAGE_PADDING,
+      PANEL_W,
+      PANEL_H
+    )
+    ctx.clip()
+
+    // Subtle zoom (Ken Burns) across the scene
+    const zoomT = t / sceneDuration // 0..1
+    const zoom = 1 + 0.04 * zoomT // 1.00 -> 1.04
+
+    // Fade previous scene out behind (crossfade feel)
+    if (prevImg && t < transitionMs && i > 0) {
+      ctx.globalAlpha = 1 - fadeIn
+      drawImageContained(
+        ctx,
+        prevImg,
+        IMAGE_PADDING,
+        IMAGE_PADDING,
+        PANEL_W,
+        PANEL_H,
+        1 + 0.04 // prev zoom fixed
+      )
+    }
+
+    ctx.globalAlpha = sceneAlpha
+
+    if (img && img.complete && img.naturalWidth > 0) {
+      drawImageContained(
+        ctx,
+        img,
+        IMAGE_PADDING,
+        IMAGE_PADDING,
+        PANEL_W,
+        PANEL_H,
+        zoom
+      )
+    } else {
+      drawPanelArtFallback(
+        ctx,
+        PANEL_W,
+        PANEL_H,
+        `Panel ${i + 1} — image unavailable`
+      )
+    }
+
+    // Dark gradient at bottom of image so caption flows nicely
+    const grad = ctx.createLinearGradient(
+      0,
+      IMAGE_PADDING + PANEL_H * 0.55,
+      0,
+      IMAGE_PADDING + PANEL_H
+    )
+    grad.addColorStop(0, 'rgba(7,26,29,0)')
+    grad.addColorStop(1, 'rgba(7,26,29,0.55)')
+    ctx.globalAlpha = sceneAlpha
+    ctx.fillStyle = grad
+    ctx.fillRect(
+      IMAGE_PADDING,
+      IMAGE_PADDING,
+      PANEL_W,
+      PANEL_H
+    )
+
+    ctx.restore()
+
+    // ---------- Scene number chip (top-left of image) ----------
+    ctx.globalAlpha = sceneAlpha
+    const chipText = `PANEL ${i + 1} / ${scenes.length}`
+    ctx.font = 'bold 14px monospace'
+    const chipW = ctx.measureText(chipText).width + 28
+    const chipH = 32
+    const chipX = IMAGE_PADDING + 20
+    const chipY = IMAGE_PADDING + 20
+    roundRect(ctx, chipX, chipY, chipW, chipH, 16)
+    ctx.fillStyle = 'rgba(7,26,29,0.85)'
+    ctx.fill()
+    ctx.fillStyle = '#2DD4BF'
+    ctx.textAlign = 'left'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(chipText, chipX + 14, chipY + chipH / 2 + 1)
+
+    // ---------- Caption bar ----------
+    const barY = H - CAPTION_BAR_H
+    ctx.globalAlpha = 1
+    ctx.fillStyle = '#0D2929'
+    ctx.fillRect(0, barY, W, CAPTION_BAR_H)
+
+    // Accent strip on the left
+    ctx.fillStyle = '#2DD4BF'
+    ctx.fillRect(0, barY, 6, CAPTION_BAR_H)
+
+    // Story title (small, above caption) — always visible
+    ctx.fillStyle = '#94A3B8'
+    ctx.font = 'bold 13px monospace'
+    ctx.textAlign = 'left'
+    ctx.textBaseline = 'top'
+    ctx.fillText(
+      String(story.title || '').toUpperCase().slice(0, 70),
+      40,
+      barY + 20
+    )
+
+    // Caption text — animated reveal
+    ctx.fillStyle = '#F0FDFA'
+    ctx.font = 'bold 30px sans-serif'
+    const caption = String(scene.caption || '')
+    // Type-on effect: reveal progressively over first 700ms of the scene
+    const revealT = Math.min(1, t / 700)
+    const revealChars = Math.floor(caption.length * revealT)
+    const visibleCaption = caption.slice(0, revealChars)
+
+    wrapText(
+      ctx,
+      visibleCaption,
+      40,
+      barY + 46,
+      W - 80,
+      38,
+      2
+    )
+
+    // ---------- Overall progress bar ----------
+    const totalDuration = scenes.length * secondsPerScene * 1000
+    // Compute absolute progress from scene index + t
+    const absoluteT = i * secondsPerScene * 1000 + t
+    const prog = Math.min(1, absoluteT / totalDuration)
+    ctx.fillStyle = '#164E4A'
+    ctx.fillRect(0, H - 4, W, 4)
+    ctx.fillStyle = '#2DD4BF'
+    ctx.fillRect(0, H - 4, W * prog, 4)
+
+    // Scene tick marks
+    ctx.fillStyle = 'rgba(45,212,191,0.35)'
+    for (let k = 1; k < scenes.length; k++) {
+      const x = (k / scenes.length) * W
+      ctx.fillRect(x - 1, H - 4, 2, 4)
+    }
+  }
+
+  // ---------- Main loop ----------
   const totalDuration = scenes.length * secondsPerScene * 1000
+  const startTime = performance.now()
 
   try {
     for (let i = 0; i < scenes.length; i++) {
-      const scene = scenes[i]
       const sceneStart = performance.now()
       const sceneDuration = secondsPerScene * 1000
+      const prevImg = i > 0 ? images[i - 1] : null
 
       while (performance.now() - sceneStart < sceneDuration) {
         const t = performance.now() - sceneStart
-        const fadeIn = Math.min(1, t / 400)
-        const fadeOut = Math.min(1, (sceneDuration - t) / 400)
-        const alpha = Math.min(fadeIn, fadeOut)
+        drawFrame(i, t, prevImg)
 
-        ctx.fillStyle = '#071A1D'
-        ctx.fillRect(0, 0, W, H)
-
-        const panelW = 960
-        const panelH = 720 - 160
-        const panelX = (W - panelW) / 2
-        const panelY = 20
-
-        ctx.globalAlpha = alpha
-        const img = images[i]
-
-        if (img && img.complete && img.naturalWidth > 0) {
-          const scale = Math.min(panelW / img.width, panelH / img.height)
-          const drawW = img.width * scale
-          const drawH = img.height * scale
-          const dx = panelX + (panelW - drawW) / 2
-          const dy = panelY + (panelH - drawH) / 2
-          ctx.drawImage(img, dx, dy, drawW, drawH)
-        } else {
-          drawPanelArtFallback(
-            ctx,
-            W,
-            H,
-            `Panel ${i + 1} — image unavailable`
-          )
+        if (onProgress) {
+          const absoluteT = i * secondsPerScene * 1000 + t
+          onProgress(Math.min(1, absoluteT / totalDuration))
         }
-
-        ctx.globalAlpha = 1
-        ctx.fillStyle = '#0D2929'
-        ctx.fillRect(0, H - 130, W, 130)
-
-        ctx.fillStyle = '#2DD4BF'
-        ctx.font = 'bold 18px monospace'
-        ctx.textAlign = 'left'
-        ctx.textBaseline = 'top'
-        ctx.fillText(`PANEL ${i + 1} / ${scenes.length}`, 40, H - 115)
-
-        ctx.fillStyle = '#F0FDFA'
-        ctx.font = 'bold 26px sans-serif'
-        const caption = String(scene.caption || '').slice(0, 120)
-        wrapText(ctx, caption, 40, H - 82, W - 80, 34, 2)
-
-        ctx.fillStyle = 'rgba(148,163,184,0.55)'
-        ctx.font = '14px monospace'
-        ctx.textAlign = 'right'
-        ctx.fillText('Pearl Visual', W - 40, H - 20)
-
-        const prog = (performance.now() - startTime) / totalDuration
-        ctx.fillStyle = '#164E4A'
-        ctx.fillRect(0, H - 4, W, 4)
-        ctx.fillStyle = '#2DD4BF'
-        ctx.fillRect(0, H - 4, W * prog, 4)
-
-        if (onProgress) onProgress(Math.min(1, prog))
 
         await new Promise((r) => setTimeout(r, frameDelay))
       }
     }
 
+    // Hold the final frame for a moment
     await new Promise((r) => setTimeout(r, 300))
     recorder.stop()
     await stopped
@@ -308,6 +433,27 @@ async function recordStoryToVideo(story, opts = {}) {
 
   const blob = new Blob(chunks, { type: support.mime })
   return { blob, ext: support.ext }
+}
+
+// ---------- Helpers used by the video renderer ----------
+
+function drawImageContained(ctx, img, x, y, w, h, zoom = 1) {
+  const scale = Math.min(w / img.width, h / img.height) * zoom
+  const drawW = img.width * scale
+  const drawH = img.height * scale
+  const dx = x + (w - drawW) / 2
+  const dy = y + (h - drawH) / 2
+  ctx.drawImage(img, dx, dy, drawW, drawH)
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath()
+  ctx.moveTo(x + r, y)
+  ctx.arcTo(x + w, y, x + w, y + h, r)
+  ctx.arcTo(x + w, y + h, x, y + h, r)
+  ctx.arcTo(x, y + h, x, y, r)
+  ctx.arcTo(x, y, x + w, y, r)
+  ctx.closePath()
 }
 
 // ============================================================
