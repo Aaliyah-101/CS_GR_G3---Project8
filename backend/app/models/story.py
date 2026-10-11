@@ -18,7 +18,8 @@ class StoryRequest(BaseModel):
 
     language: str = "English"
 
-    audience: Optional[str] = "General"
+    audience: Optional[str] = "parents and caregivers"
+    setting: Optional[str] = "rural Ugandan home"
 
 
 # ============================================================

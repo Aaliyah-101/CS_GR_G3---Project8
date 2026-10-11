@@ -25,6 +25,7 @@ def generate_story_endpoint(request: StoryRequest):
         source_text=request.source_text,
         language=request.language,
         audience=request.audience,
+        setting=request.setting,
     )
 
     return {
