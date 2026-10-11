@@ -7,9 +7,10 @@ and returns a JSON storyboard.
 The response is adapted to the same shape the frontend already
 expects (title, narrative, facts, scenes with imagePrompt).
 
-Also injects a "text-free contract" into every image prompt so
-the downstream FLUX image model does not draw speech bubbles,
-captions, or any lettering.
+Every image prompt gets:
+  1. A comic-style prefix (graphic-novel look)
+  2. A text-free contract (no speech bubbles, captions, lettering)
+so the FLUX image model produces clean comic panels.
 """
 
 import os
@@ -28,6 +29,13 @@ SCENE_PLANNER_URL = os.getenv(
 )
 
 SCENE_PLANNER_API_KEY = os.getenv("SCENE_PLANNER_API_KEY")
+
+# Comic-style prefix added to every image prompt.
+COMIC_STYLE_PREFIX = (
+    "A modern graphic-novel style illustration, clean bold ink "
+    "linework, dynamic cel shading, expressive characters, rich "
+    "saturated color palette, comic book aesthetic. "
+)
 
 # Appended to every image prompt before it is sent to the FLUX API.
 # FLUX ignores negative-prompt parameters, so we state this in the
@@ -51,7 +59,6 @@ def is_configured() -> bool:
 # AUDIENCE / SETTING MAPPING
 # ============================================================
 
-# The scene planner only understands these 6 exact values.
 _ALLOWED_AUDIENCES = {
     "elderly community members",
     "pregnant women",
@@ -61,7 +68,6 @@ _ALLOWED_AUDIENCES = {
     "school-age children",
 }
 
-# Loose mapping from free-text audience to the planner's enum.
 _AUDIENCE_ALIASES = {
     "rural families": "parents and caregivers",
     "families": "parents and caregivers",
@@ -128,11 +134,8 @@ def generate_storyboard(
             "Set SCENE_PLANNER_URL and SCENE_PLANNER_API_KEY."
         )
 
-    # The planner requires at least 20 chars of source_text
     if not source_text or len(source_text.strip()) < 20:
-        raise ValueError(
-            "source_text must be at least 20 characters."
-        )
+        raise ValueError("source_text must be at least 20 characters.")
 
     audience = _normalize_audience(audience)
     setting = _normalize_setting(setting)
@@ -187,6 +190,26 @@ def generate_storyboard(
 # ADAPTER — storyboard → VisualUG story shape
 # ============================================================
 
+def _build_image_prompt(visual_prompt: str) -> str:
+    """
+    Assemble the final prompt sent to the image model:
+      <comic style prefix> + <scene prompt> + <text-free contract>
+    """
+    scene_text = (visual_prompt or "").strip()
+
+    if scene_text and not scene_text.endswith((".", "!", "?")):
+        scene_text += "."
+
+    parts = [COMIC_STYLE_PREFIX.strip()]
+
+    if scene_text:
+        parts.append(scene_text)
+
+    parts.append(TEXT_FREE_CONTRACT.strip())
+
+    return " ".join(parts)
+
+
 def storyboard_to_visualug_story(
     data: dict,
     title: str = "",
@@ -199,11 +222,13 @@ def storyboard_to_visualug_story(
     Convert a scene planner response into the story shape the
     frontend, DB, and image pipeline already expect.
 
-    Also appends the text-free contract to every image prompt.
+    Every scene's imagePrompt gets:
+      - comic style prefix
+      - original visual prompt from Phi-4
+      - text-free contract
     """
 
     storyboard = data.get("storyboard", {}) or {}
-
     raw_scenes = storyboard.get("scenes", []) or []
 
     scenes = []
@@ -211,21 +236,15 @@ def storyboard_to_visualug_story(
     for i, scene in enumerate(raw_scenes, start=1):
         scene_num = scene.get("scene_number", i)
         caption = scene.get("caption", "")
-        visual_prompt = (scene.get("visual_prompt") or "").strip()
+        visual_prompt = scene.get("visual_prompt", "")
 
-        # --- Append the text-free contract to the FLUX prompt ---
-        if not visual_prompt:
-            safe_prompt = TEXT_FREE_CONTRACT.strip()
-        else:
-            if not visual_prompt.endswith((".", "!", "?")):
-                visual_prompt += "."
-            safe_prompt = visual_prompt + TEXT_FREE_CONTRACT
+        image_prompt = _build_image_prompt(visual_prompt)
 
         scenes.append({
             "id": f"scene-{scene_num}",
             "sceneNumber": scene_num,
             "caption": caption,
-            "imagePrompt": safe_prompt,
+            "imagePrompt": image_prompt,
             "imageUrl": None,
             "artKey": f"scene-{scene_num}",
             "characters": [],
@@ -236,7 +255,6 @@ def storyboard_to_visualug_story(
     story_summary = storyboard.get("story_summary", "")
 
     facts = []
-
     if health_message:
         facts.append({
             "id": "fact-1",
