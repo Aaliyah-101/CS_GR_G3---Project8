@@ -4,9 +4,7 @@ import PanelArt from './PanelArt.jsx'
 import { colorForCharacter } from './storyEngine.js'
 
 
-// ============================================================
 // IMAGE URL HELPER
-// ============================================================
 
 function getImageUrl(imageUrl) {
 
@@ -19,10 +17,7 @@ function getImageUrl(imageUrl) {
   return `${API_BASE_URL}${imageUrl}`
 }
 
-
-// ============================================================
 // CHARACTER PARSER
-// ============================================================
 
 function parseCharacters(value) {
 
@@ -40,11 +35,7 @@ function parseCharacters(value) {
     .filter(Boolean)
 }
 
-
-// ============================================================
 // PANEL GENERATION COMPONENT
-// ============================================================
-
 export default function PanelGenStep({
   data,
   update,
@@ -56,9 +47,7 @@ export default function PanelGenStep({
   const [error, setError] = useState(null)
 
 
-  // ============================================================
   // ALL CHARACTER NAMES
-  // ============================================================
 
   const allCharacterNames = Array.from(
     new Set(
@@ -68,10 +57,7 @@ export default function PanelGenStep({
     )
   )
 
-
-  // ============================================================
   // GENERATE PANELS
-  // ============================================================
 
   async function generatePanels() {
 
@@ -93,9 +79,7 @@ export default function PanelGenStep({
     const results = []
 
 
-    // ==========================================================
     // GENERATE EACH SCENE INDEPENDENTLY
-    // ==========================================================
 
     for (const scene of data.scenes) {
 

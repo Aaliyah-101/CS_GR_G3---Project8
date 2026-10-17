@@ -83,11 +83,7 @@ export default function PanelArt({
   imageUrl,
 }) {
 
-  /*
-   * --------------------------------
-   * REAL GENERATED IMAGE
-   * --------------------------------
-   *
+  /* REAL GENERATED IMAGE
    * If FastAPI eventually gives us an
    * image URL, display it instead of
    * the placeholder SVG.
@@ -104,21 +100,13 @@ export default function PanelArt({
   }
 
 
-  /*
-   * --------------------------------
-   * CHARACTER COLOUR HELPER
-   * --------------------------------
-   */
+  /*CHARACTER COLOUR HELPER */
 
   const c = (i, fallback) =>
     colors[i] || fallback
 
 
-  /*
-   * --------------------------------
-   * FALLBACK SVG SCENES
-   * --------------------------------
-   */
+  /* FALLBACK SVG SCENES*/
 
   const scenes = {
 
