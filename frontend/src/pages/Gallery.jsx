@@ -11,9 +11,8 @@ import underthenet from '../assets/images/underthenet.png'
 import PanelArt from '../components/story-builder/PanelArt.jsx'
 import { colorForCharacter } from '../components/story-builder/storyEngine.js'
 
-// ============================================================
+
 // SEED / DEMO MEDIA
-// ============================================================
 
 const seedItems = [
   { id: 'a1', src: ebola, source: 'community', caption: 'Fighting Ebola in the community' },
@@ -34,9 +33,7 @@ const FILTERS = [
 
 let nextId = 1
 
-// ============================================================
 // HELPERS
-// ============================================================
 
 function parseCharacters(value) {
   if (Array.isArray(value)) return value
@@ -167,14 +164,9 @@ function exportStoryJson(story) {
   })
   downloadBlob(blob, `${slugify(story.title)}.json`)
 }
-
-// ============================================================
+ 
 // RECORD STORY TO VIDEO
-// ============================================================
-
-// ============================================================
 // RECORD STORY TO VIDEO — cinematic edition
-// ============================================================
 
 async function recordStoryToVideo(story, opts = {}) {
   const {
@@ -213,7 +205,7 @@ async function recordStoryToVideo(story, opts = {}) {
   })
   recorder.start()
 
-  // ---------- Preload images ----------
+  //  Preload images 
   const loadedEntries = await Promise.all(
     scenes.map(async (scene) => {
       if (!scene.imageUrl) return null
@@ -230,7 +222,7 @@ async function recordStoryToVideo(story, opts = {}) {
   const images = loadedEntries.map((e) => (e ? e.img : null))
   const objectUrls = loadedEntries.filter(Boolean).map((e) => e.objectUrl)
 
-  // ---------- Layout constants ----------
+  // Layout constants
   const CAPTION_BAR_H = 180
   const IMAGE_AREA_H = H - CAPTION_BAR_H
   const IMAGE_PADDING = 32
@@ -239,7 +231,7 @@ async function recordStoryToVideo(story, opts = {}) {
 
   const frameDelay = 1000 / 30
 
-  // ---------- Helper — draw a single frame for scene i at local time t ----------
+  // Helper — draw a single frame for scene i at local time t 
   // t = milliseconds into this scene (0 .. sceneDuration)
   // prevImg = image of previous scene (for fade-in overlay), may be null
   function drawFrame(i, t, prevImg) {
@@ -256,7 +248,7 @@ async function recordStoryToVideo(story, opts = {}) {
     ctx.fillStyle = '#071A1D'
     ctx.fillRect(0, 0, W, H)
 
-    // ---------- Image area ----------
+    //Image area 
     ctx.save()
     ctx.beginPath()
     ctx.rect(
@@ -326,7 +318,7 @@ async function recordStoryToVideo(story, opts = {}) {
 
     ctx.restore()
 
-    // ---------- Scene number chip (top-left of image) ----------
+    //Scene number chip (top-left of image)
     ctx.globalAlpha = sceneAlpha
     const chipText = `PANEL ${i + 1} / ${scenes.length}`
     ctx.font = 'bold 14px monospace'
@@ -342,7 +334,7 @@ async function recordStoryToVideo(story, opts = {}) {
     ctx.textBaseline = 'middle'
     ctx.fillText(chipText, chipX + 14, chipY + chipH / 2 + 1)
 
-    // ---------- Caption bar ----------
+    // Caption bar 
     const barY = H - CAPTION_BAR_H
     ctx.globalAlpha = 1
     ctx.fillStyle = '#0D2929'
@@ -382,7 +374,7 @@ async function recordStoryToVideo(story, opts = {}) {
       2
     )
 
-    // ---------- Overall progress bar ----------
+    // Overall progress bar
     const totalDuration = scenes.length * secondsPerScene * 1000
     // Compute absolute progress from scene index + t
     const absoluteT = i * secondsPerScene * 1000 + t
@@ -400,7 +392,7 @@ async function recordStoryToVideo(story, opts = {}) {
     }
   }
 
-  // ---------- Main loop ----------
+  // Main loop
   const totalDuration = scenes.length * secondsPerScene * 1000
   const startTime = performance.now()
 
@@ -435,7 +427,7 @@ async function recordStoryToVideo(story, opts = {}) {
   return { blob, ext: support.ext }
 }
 
-// ---------- Helpers used by the video renderer ----------
+// Helpers used by the video renderer
 
 function drawImageContained(ctx, img, x, y, w, h, zoom = 1) {
   const scale = Math.min(w / img.width, h / img.height) * zoom
@@ -456,9 +448,7 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath()
 }
 
-// ============================================================
 // GALLERY
-// ============================================================
 
 export default function Gallery() {
   const [items, setItems] = useState(seedItems)
@@ -472,7 +462,7 @@ export default function Gallery() {
   // refreshKey triggers refetches (on focus, visibility change, manual click)
   const [refreshKey, setRefreshKey] = useState(0)
 
-  // ---- Load published stories (re-runs whenever refreshKey changes) ----
+  // Load published stories (re-runs whenever refreshKey changes) ----
   useEffect(() => {
     let cancelled = false
 
@@ -756,10 +746,7 @@ export default function Gallery() {
   )
 }
 
-// ============================================================
 // STORY VIEWER
-// ============================================================
-
 function StoryViewer({ story, onClose }) {
   const [currentScene, setCurrentScene] = useState(0)
   const [playing, setPlaying] = useState(false)
