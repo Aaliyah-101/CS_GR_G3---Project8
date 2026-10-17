@@ -26,7 +26,7 @@ export default function AboutUs() {
           <p className="mt-4 text-sm leading-relaxed text-slate-600">
             To create a more informed and engaged Ugandan society where public health policies, health guidelines
             and civic duties are understood through the universal language of visuals. By leveraging
-            Large Vision Models (LVM), we bridge the gap between technical data and community understanding.
+            Large Vision Models (LVM), we bridge the gap between technical and clinical data and community understanding.
           </p>
         </div>
 
