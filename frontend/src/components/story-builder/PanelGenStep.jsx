@@ -137,11 +137,7 @@ export default function PanelGenStep({
           err.response?.data || err
         )
 
-
-        // ======================================================
-        // KEEP FAILED PANEL IN RESULTS
-        // ======================================================
-
+ // KEEP FAILED PANEL IN RESULTS
         const failedPanel = {
 
           scene_id: scene.id,
@@ -180,11 +176,8 @@ export default function PanelGenStep({
 
     }
 
-
-    // ==========================================================
     // FINISHED
-    // ==========================================================
-
+    
     setGenerating(false)
 
 
@@ -204,10 +197,8 @@ export default function PanelGenStep({
 
   }
 
-
-  // ============================================================
-  // GENERATE WHEN STEP OPENS
-  // ============================================================
+// GENERATE WHEN STEP OPENS
+  
 
   useEffect(() => {
 
@@ -217,10 +208,7 @@ export default function PanelGenStep({
 
   }, [])
 
-
-  // ============================================================
   // LOADING STATE
-  // ============================================================
 
   if (generating) {
 
@@ -259,10 +247,8 @@ export default function PanelGenStep({
 
   }
 
-
-  // ============================================================
   // COMPLETE FAILURE STATE
-  // ============================================================
+
 
   if (error && panels.length === 0) {
 
@@ -307,19 +293,13 @@ export default function PanelGenStep({
 
   }
 
-
-  // ============================================================
   // PANEL DISPLAY
-  // ============================================================
-
   return (
 
     <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
 
 
-      {/* ========================================================
-          HEADER
-      ======================================================== */}
+      {/* HEADER */}
 
       <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">
 
@@ -343,9 +323,7 @@ export default function PanelGenStep({
       </p>
 
 
-      {/* ========================================================
-          PANEL GRID
-      ======================================================== */}
+      {/* PANEL GRID */}
 
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
 
@@ -353,20 +331,14 @@ export default function PanelGenStep({
         {data.scenes.map((scene, i) => {
 
 
-          // ------------------------------------------------------
           // MATCH PANEL TO SCENE
-          // ------------------------------------------------------
-
           const panel = panels.find(
             (item) =>
               item.scene_id === scene.id
           )
 
-
-          // ------------------------------------------------------
           // CHARACTERS
-          // ------------------------------------------------------
-
+         
           const names = parseCharacters(
             scene.characters
           )
@@ -381,10 +353,7 @@ export default function PanelGenStep({
           )
 
 
-          // ------------------------------------------------------
           // PANEL STATUS
-          // ------------------------------------------------------
-
           const isGenerated =
             Boolean(panel?.image_url)
 
@@ -401,9 +370,7 @@ export default function PanelGenStep({
             >
 
 
-              {/* ==================================================
-                  IMAGE
-              ================================================== */}
+              {/* IMAGE */}
 
               <div className="relative aspect-[4/3]">
 
@@ -431,9 +398,7 @@ export default function PanelGenStep({
                 )}
 
 
-                {/* =================================================
-                    IMAGE STATUS
-                ================================================= */}
+                {/*IMAGE STATUS*/}
 
                 <div className="absolute right-2 top-2">
 
@@ -453,9 +418,7 @@ export default function PanelGenStep({
               </div>
 
 
-              {/* ==================================================
-                  PANEL INFORMATION
-              ================================================== */}
+              {/* PANEL INFORMATION */}
 
               <div className="p-3">
 
@@ -532,9 +495,7 @@ export default function PanelGenStep({
       </div>
 
 
-      {/* ========================================================
-          CHARACTER CONSISTENCY
-      ======================================================== */}
+      {/* CHARACTER CONSISTENCY*/}
 
       {allCharacterNames.length > 0 && (
 
@@ -589,9 +550,7 @@ export default function PanelGenStep({
       )}
 
 
-      {/* ========================================================
-          PANEL SUMMARY
-      ======================================================== */}
+      {/* PANEL SUMMARY */}
 
       <div className="mt-6 rounded-md border border-panelLine bg-ink p-4">
 
@@ -655,9 +614,7 @@ export default function PanelGenStep({
       </div>
 
 
-      {/* ========================================================
-          PARTIAL GENERATION WARNING
-      ======================================================== */}
+      {/*PARTIAL GENERATION WARNING*/}
 
       {panels.some(
         (panel) =>
@@ -685,9 +642,7 @@ export default function PanelGenStep({
       )}
 
 
-      {/* ========================================================
-          VERIFY
-      ======================================================== */}
+      {/*VERIFY*/}
 
       <div className="mt-7 border-t border-slate-200 pt-6">
 
