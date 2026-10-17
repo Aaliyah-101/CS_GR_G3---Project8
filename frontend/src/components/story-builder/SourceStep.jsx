@@ -121,11 +121,8 @@ export default function SourceStep({
     }
   }
 
-
-  // --------------------------------
-  // Validation
-  // --------------------------------
-
+ // Validation
+  
   const canVerify =
     data.title.trim().length > 0 &&
     data.sourceText.trim().length > 20
@@ -135,10 +132,7 @@ export default function SourceStep({
 
     <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
 
-
-      {/* -------------------------------- */}
-      {/* Story title */}
-      {/* -------------------------------- */}
+{/* Story title */}
 
       <label className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">
         Story title
@@ -156,10 +150,8 @@ export default function SourceStep({
       />
 
 
-      {/* -------------------------------- */}
       {/* Category + Tone */}
-      {/* -------------------------------- */}
-
+      
       <div className="mt-5 grid grid-cols-2 gap-4">
 
         <div>
@@ -227,11 +219,8 @@ export default function SourceStep({
 
       </div>
 
-
-      {/* -------------------------------- */}
-      {/* Source material */}
-      {/* -------------------------------- */}
-
+ {/* Source material */}
+      
       <div className="mt-7">
 
         <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#2B7A4B]">
@@ -292,10 +281,8 @@ export default function SourceStep({
         </div>
 
 
-        {/* -------------------------------- */}
         {/* Type */}
-        {/* -------------------------------- */}
-
+      
         {inputMethod === 'type' && (
 
           <textarea
@@ -312,11 +299,8 @@ export default function SourceStep({
 
         )}
 
-
-        {/* -------------------------------- */}
-        {/* Upload */}
-        {/* -------------------------------- */}
-
+{/* Upload */}
+        
         {inputMethod === 'upload' && (
 
           <div className="mt-3">
@@ -389,11 +373,8 @@ export default function SourceStep({
 
         )}
 
-
-        {/* -------------------------------- */}
-        {/* Record */}
-        {/* -------------------------------- */}
-
+{/* Record */}
+        
         {inputMethod === 'record' && (
 
           <div className="mt-3 rounded-lg border border-slate-200 p-5">
@@ -500,11 +481,8 @@ export default function SourceStep({
 
       </div>
 
-
-      {/* -------------------------------- */}
-      {/* Action area */}
-      {/* -------------------------------- */}
-
+{/* Action area */}
+      
       <div className="mt-7">
 
         <div className="flex items-center gap-4">
@@ -558,11 +536,8 @@ export default function SourceStep({
 
         </div>
 
-
-        {/* -------------------------------- */}
-        {/* API error */}
-        {/* -------------------------------- */}
-
+{/* API error */}
+        
         {generationError && (
 
           <div className="mt-4 rounded-md border border-red-200 bg-red-50 px-4 py-3">
