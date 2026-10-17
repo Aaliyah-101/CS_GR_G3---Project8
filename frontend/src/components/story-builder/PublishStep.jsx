@@ -23,10 +23,8 @@ export default function PublishStep({
   const [published, setPublished] = useState(false)
   const [publishError, setPublishError] = useState(null)
 
-  // ============================================================
   // BUILD FINAL STORY PAYLOAD
-  // ============================================================
-
+  
   function buildPayload() {
     const audience =
       data.audienceOptions?.find(
@@ -48,11 +46,7 @@ export default function PublishStep({
       language: data.language,
 
       audioNarration: data.audioNarration,
-
-      // --------------------------------------------------------
-      // FACTS
-      // --------------------------------------------------------
-
+ // FACTS
       facts: data.facts
         .filter((fact) => fact.included)
         .map((fact) => ({
@@ -60,18 +54,14 @@ export default function PublishStep({
           text: fact.text,
         })),
 
-      // --------------------------------------------------------
-      // NARRATIVE
-      // --------------------------------------------------------
-
+     // NARRATIVE
+      
       narrative: {
         protagonist: data.protagonist,
         arc: data.arc,
       },
 
-      // --------------------------------------------------------
-      // SCENES
-      // --------------------------------------------------------
+       // SCENES
       // Merge in whatever image was generated for each scene during the
       // Panel Gen step (data.panels), matched by scene id. Without this,
       // the publish payload only carries the *prompt* for each scene, not
@@ -111,10 +101,8 @@ export default function PublishStep({
     }
   }
 
-  // ============================================================
-  // PUBLISH STORY
-  // ============================================================
-
+   // PUBLISH STORY
+ 
   async function handleSubmit() {
     setSubmitting(true)
     setPublishError(null)
@@ -127,10 +115,8 @@ export default function PublishStep({
     )
 
     try {
-      // --------------------------------------------------------
       // SEND STORY TO BACKEND
-      // --------------------------------------------------------
-
+      
       const response = await api.post(
         '/api/story/publish',
         payload
@@ -141,18 +127,14 @@ export default function PublishStep({
         response.data
       )
 
-      // --------------------------------------------------------
-      // OPTIONAL CALLBACK TO CREATESTORY
-      // --------------------------------------------------------
-
+        // OPTIONAL CALLBACK TO CREATESTORY
+      
       if (onSubmit) {
         await onSubmit(response.data)
       }
 
-      // --------------------------------------------------------
       // SHOW SUCCESS STATE
-      // --------------------------------------------------------
-
+      
       setPublished(true)
 
     } catch (error) {
@@ -171,10 +153,8 @@ export default function PublishStep({
     }
   }
 
-  // ============================================================
-  // PUBLISHED STATE
-  // ============================================================
-
+   // PUBLISHED STATE
+  
   if (published) {
     return (
       <div className="rounded-lg border border-[#2B7A4B]/40 bg-white p-8 text-center shadow-soft">
@@ -198,28 +178,22 @@ export default function PublishStep({
     )
   }
 
-  // ============================================================
-  // CURRENT AUDIENCE
-  // ============================================================
-
+   // CURRENT AUDIENCE
+  
   const audience =
     data.audienceOptions?.find(
       (a) => a.id === data.audienceId
     )
 
-  // ============================================================
-  // INCLUDED FACTS
-  // ============================================================
-
+   // INCLUDED FACTS
+  
   const included =
     data.facts.filter(
       (fact) => fact.included
     ).length
 
-  // ============================================================
   // RENDER
-  // ============================================================
-
+  
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
 
@@ -237,9 +211,7 @@ export default function PublishStep({
         Review your story before publishing it to VisualUG.
       </p>
 
-      {/* ======================================================
-          STORY SUMMARY
-      ====================================================== */}
+      {/*STORY SUMMARY*/}
 
       <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 rounded-md border border-slate-200 bg-slate-50 p-4 font-mono text-xs">
 
@@ -287,9 +259,7 @@ export default function PublishStep({
 
       </dl>
 
-      {/* ======================================================
-          LANGUAGE + AUDIO
-      ====================================================== */}
+      {/*LANGUAGE + AUDIO*/}
 
       <div className="mt-6 grid gap-6 sm:grid-cols-2">
 
@@ -384,9 +354,7 @@ export default function PublishStep({
 
       </div>
 
-      {/* ======================================================
-          ERROR MESSAGE
-      ====================================================== */}
+      {/*ERROR MESSAGE*/}
 
       {publishError && (
         <div className="mt-6 rounded-md border border-clay/40 bg-clay/10 px-4 py-3">
@@ -402,9 +370,7 @@ export default function PublishStep({
         </div>
       )}
 
-      {/* ======================================================
-          PUBLISH BUTTON
-      ====================================================== */}
+      {/*PUBLISH BUTTON*/}
 
       <div className="mt-7 border-t border-slate-200 pt-6">
         <button
